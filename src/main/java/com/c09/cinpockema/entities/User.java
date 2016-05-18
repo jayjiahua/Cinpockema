@@ -45,7 +45,7 @@ public class User implements UserDetails {
 		return new BCryptPasswordEncoder(4);
 	}
 	
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;  
@@ -59,24 +59,17 @@ public class User implements UserDetails {
 	@Column(nullable=false)
 	private String password;  
 
-
-	@OneToMany(cascade = { CascadeType.REFRESH, CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REMOVE }, mappedBy = "user")
-	private Collection<Session> sessions;
+	public User() {
+		super();
+		setRole(User.ROLE.user);
+	}
 	
-	@JsonBackReference
-	public Collection<Session> getSessions() {
-		return sessions;
+	
+	public void setId(long id) {
+		this.id = id;
 	}
 
 
-	public void setSessions(Collection<Session> sessions) {
-		this.sessions = sessions;
-	}
-
-
-	public User() {}
-	
-	
 	public long getId() {
 		return id;
 	}
@@ -108,16 +101,12 @@ public class User implements UserDetails {
 		this.role = role;
 	}
 	
-	public void addSession(Session session){   
-        session.setUser(this);//用关系维护端来维护关系   
-        this.sessions.add(session);   
-    }   
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority(getRole().name()));
-        System.err.println("username is " + username + ", " + getRole().name());
+        System.err.println("[" + username + ", " + getRole().name() + "]");
         return authorities;
 	}
 

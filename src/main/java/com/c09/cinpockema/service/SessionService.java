@@ -11,20 +11,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.c09.cinpockema.entities.Session;
 import com.c09.cinpockema.entities.User;
-import com.c09.cinpockema.entities.repositories.SessionRepository;
 import com.c09.cinpockema.entities.repositories.UserRepository;
 
 @Service
 public class SessionService {
 	
 	@Autowired
-	SessionRepository sessionRepository;
-	
-	@Autowired
 	UserRepository userRepository;
-	
+		
 	public User getCurrentUser() {
 		Authentication authentication = (Authentication) SecurityContextHolder.getContext()
 		    .getAuthentication();
@@ -32,34 +27,8 @@ public class SessionService {
 			return null;
 		} else {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			Session session = sessionRepository.findByToken(userDetails.getUsername());
-			if (session != null) {
-				return session.getUser();
-			} else {
-				return userRepository.findByUsername(userDetails.getUsername());
-			}
+			return userRepository.findByUsername(userDetails.getUsername());
 		}
-	}
-	
-	public Session login() {
-		User currentUser = getCurrentUser();
-		if (currentUser != null) {
-			Session session = new Session();
-			String token = UUID.randomUUID().toString();
-			session.setToken(token);
-			currentUser.addSession(session);
-			return sessionRepository.save(session);
-		} else {
-			return null;
-		}
-	}
-	
-	public void logout() {
-		// TODO Actually, I don't know what should I do.
-	}
-	
-	public Session findSessionByToken(String token) {
-		return sessionRepository.findByToken(token);
 	}
 	
 }

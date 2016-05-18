@@ -1,8 +1,10 @@
 # Server settings (ServerProperties)
 server:
   port: 8080
-  address: 127.0.0.1
-  sessionTimeout: 30
+  address: 0.0.0.0
+  session:
+#    timeout: 30
+    persistent: true
   contextPath: /api/
 
   # Tomcat specifics
@@ -22,6 +24,12 @@ spring:
 #    username: root
 #    password:
 
+endpoints: 
+  actuator: 
+    enabled: true
+    path: /api/admin/
+    sensitive: true
+
 # Security settings
 security: 
   basic:
@@ -29,4 +37,5 @@ security:
 #  user:
 #    name: secured
 #    password: foo
+
 

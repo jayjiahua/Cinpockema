@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		entryPoint.setRealmName("Spring Boot");
 		http.exceptionHandling().authenticationEntryPoint(entryPoint);
 		http.authorizeRequests()
-		.antMatchers("/**").permitAll()
+		.antMatchers("/").permitAll()
 		.anyRequest().authenticated()
 		.and()
 		.httpBasic()

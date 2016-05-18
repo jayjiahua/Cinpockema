@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.c09.cinpockema.entities.Session;
 import com.c09.cinpockema.entities.User;
 import com.c09.cinpockema.service.SessionService;
 
@@ -29,15 +28,7 @@ public class SessionController {
     // curl localhost:8080/api/session -H "Content-Type:application/json" -u user:user -d "{}"
     @RequestMapping(value={"", "/"}, method = RequestMethod.POST)
     @PreAuthorize("hasAnyAuthority({'admin', 'user'})")
-    public Session loginUser() {
-    	return sessionService.login();
+    public void loginUser() {
+    	// Do nothing, just return the cookies
     }
-	
-    @RequestMapping(value={"", "/"}, method = RequestMethod.DELETE)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAnyAuthority({'admin', 'user'})")
-    public void logoutUser() {
-    	sessionService.logout();
-    }
-    
 }

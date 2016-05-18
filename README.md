@@ -34,7 +34,9 @@ PS: 建议使用Eclipse (STS) 进行开发，在此环境下只需右键点击``
 
   ```@Controller``` - 负责路由，处理请求，并将数据递交给对应的Service
 
-  *在开发每个业务模块时，至少包含以上四层，一般而言，开发的顺序是：Entity -> Repository -> Service -> Controller*
+  **在开发每个业务模块时，至少包含以上四层，一般而言，开发的顺序是：Entity -> Repository -> Service -> Controller**
+
+  除此之外，还有```@Configuration```注解，应用程序的配置，如Secure。
 
 2. 目录结构（非核心路径已略去）
 ```
@@ -95,7 +97,17 @@ security:
     password: foo
 ```
 
-## 5. 学习参考网站
+更多配置可以参考网站：https://segmentfault.com/a/1190000004316731
+
+## 5. 测试
+每个模块开发完成之后，需要编写单元测试，包括controller, service的测试，测试代码放在src/test/java文件夹中
+
+一些关于测试的参考网址
+1. http://somefuture.iteye.com/blog/2247207
+2. http://jinnianshilongnian.iteye.com/blog/2004660
+3. http://www.blogjava.net/usherlight/archive/2015/06/16/425740.html
+
+## 6. 学习开发参考网站
 1. http://blog.csdn.net/zgmzyr/article/details/49837077 （强烈推荐）
 2. http://www.ibm.com/developerworks/cn/java/j-lo-spring-boot/
 3. http://docs.spring.io/spring/docs/4.0.0.RELEASE/spring-framework-reference/html/

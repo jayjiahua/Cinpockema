@@ -15,9 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.c09.cinpockema.entities.Session;
 import com.c09.cinpockema.entities.User;
-import com.c09.cinpockema.entities.repositories.SessionRepository;
 import com.c09.cinpockema.entities.repositories.UserRepository;
 
 @Service
@@ -26,16 +24,10 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private SessionRepository sessionRepository;
 	
 	@Override
-    public UserDetails loadUserByUsername(String usernameOrToken) throws UsernameNotFoundException {
-		Session session = sessionRepository.findByToken(usernameOrToken);
-		if (session != null && session.isNotExpired()) {
-			return new org.springframework.security.core.userdetails.User(usernameOrToken, User.getPasswordEncoder().encode(""), session.getUser().getAuthorities());
-		}
-		User user = userRepository.findByUsername(usernameOrToken);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userRepository.findByUsername(username);
         if(user == null){
             throw new UsernameNotFoundException("User not found");
         }
@@ -44,7 +36,6 @@ public class UserService implements UserDetailsService {
 	
 	public UserService() {
 		super();
-		
 	}
 	
 	public User create(User user) {
