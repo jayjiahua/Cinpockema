@@ -1,10 +1,8 @@
 package com.c09.cinpockema.entities;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,11 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Temporal;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,7 +23,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -77,6 +70,20 @@ public class User implements UserDetails {
 	
 	private String signature;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy ="user", fetch=FetchType.LAZY)    
+	List<MovieComment> movieComments = new ArrayList<MovieComment>();
+
+	@JsonBackReference
+	public List<MovieComment> getMovieComments() {
+		return movieComments;
+	}
+
+
+	public void setMovieComments(List<MovieComment> movieComments) {
+		this.movieComments = movieComments;
+	}
+
+
 	public String getNickname() {
 		return nickname;
 	}
@@ -161,7 +168,11 @@ public class User implements UserDetails {
 		this.role = role;
 	}
 	
-
+	public void addMovieComment(MovieComment movieComment) {
+		movieComment.setUser(this);
+		movieComments.add(movieComment);
+	}
+	
 	@Override
 	@JsonBackReference
 	public Collection<? extends GrantedAuthority> getAuthorities() {

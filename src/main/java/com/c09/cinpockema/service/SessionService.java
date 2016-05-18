@@ -31,4 +31,14 @@ public class SessionService {
 		}
 	}
 	
+	public void login() {
+		// Do nothing, just return the cookies
+		return;
+	}
+	
+	public void logout() {
+		// Actually I don't know what should I do...
+		return;
+	}
+	
 }

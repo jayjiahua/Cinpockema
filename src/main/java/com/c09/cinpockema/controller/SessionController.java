@@ -27,8 +27,9 @@ public class SessionController {
     
     // curl localhost:8080/api/session -H "Content-Type:application/json" -u user:user -d "{}"
     @RequestMapping(value={"", "/"}, method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority({'admin', 'user'})")
     public void loginUser() {
-    	// Do nothing, just return the cookies
+    	sessionService.login();
     }
 }

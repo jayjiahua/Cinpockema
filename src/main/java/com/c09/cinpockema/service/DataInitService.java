@@ -2,10 +2,14 @@ package com.c09.cinpockema.service;
 
 import javax.annotation.PostConstruct;
 
+import com.c09.cinpockema.entities.Movie;
+import com.c09.cinpockema.entities.MovieComment;
 import com.c09.cinpockema.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.c09.cinpockema.entities.repositories.MovieCommentRepository;
+import com.c09.cinpockema.entities.repositories.MovieRepository;
 import com.c09.cinpockema.entities.repositories.UserRepository;
 
 
@@ -15,6 +19,12 @@ public class DataInitService {
     @Autowired 
     UserRepository userRepository;
 
+    @Autowired
+    MovieRepository movieRepository;
+    
+    @Autowired
+    MovieCommentRepository movieCommentRepository;
+    
     @PostConstruct
     public void userDataInit(){
         User admin = new User();
@@ -32,8 +42,37 @@ public class DataInitService {
     
     @PostConstruct
     public void movieDataInit(){
-    	// TODO movie data init
-    	System.err.println("It seems work.");
+        User user = new User();
+        user.setUsername("user-for-comment");
+        user.setPassword("user");
+        userRepository.save(user);
+        
+        for (int k = 0 ; k < 3 ; k++) {
+	        Movie movie = new Movie();
+	        movie.setName("movie-" + k);
+	        movie.setDescription("Some shit");
+	        movieRepository.save(movie);
+	        
+	        for (int i = 0 ; i < 3 ; i++) {
+		        MovieComment movieComment = new MovieComment();
+		        movieComment.setScore(i);
+		        movieComment.setContent("comment-" + i);
+
+		        // Warning: Don't do this or you will ...
+		        // user.addMovieComment(movieComment);
+		        // Is it a f**king bug ?
+		        // You should do as follows:
+		        movieComment.setUser(user);
+		        
+		        movie.addMovieComment(movieComment);
+	        }
+	        movieRepository.save(movie);
+        }
     }
     
+    @PostConstruct
+    public void foobarDataInit(){
+    	// TODO movie data init
+    	System.err.println("It seems work, hehe.");
+    }
 }

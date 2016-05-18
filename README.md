@@ -1,6 +1,7 @@
 # Cinpockema
 Course Project for SE305
 
+
 ## 1. 简介
 Cinpockema (Backend) 是使用Spring-Boot微框架构建的Restful Service
 
@@ -19,9 +20,13 @@ mvn spring-boot:run
 mvn package && java -jar target/Cinpockema-0.0.1-SNAPSHOT.jar
 ```
 
-PS: 建议使用Eclipse (STS) 进行开发，在此环境下只需右键点击```Applicaiton.java```，然后选择```Run As``` -> ```Spring Boot``` 即可。
+> 建议使用Eclipse (STS) 进行开发，在此环境下操作步骤如下
+> 1. 右击```Pom.xml```，然后选择```Run As``` -> ```Maven Install```
+> 2. 右击```Applicaiton.java```，然后选择```Run As``` -> ```Spring Boot```
 
 默认监听 http://127.0.0.1:8080 ，如需修改请参考配置文件。
+
+**注意：所有api的起始端点均为```/api```，如user模块的url为 ```http://127.0.0.1:8080/api/user```**
 
 ## 3. 项目结构
 1. 项目包含多个模块，而每个模块按照层级结构划分，以注解(Annotation)作为标志
@@ -36,7 +41,7 @@ PS: 建议使用Eclipse (STS) 进行开发，在此环境下只需右键点击``
 
   **在开发每个业务模块时，至少包含以上四层，一般而言，开发的顺序是：Entity -> Repository -> Service -> Controller**
 
-  除此之外，还有```@Configuration```注解，应用程序的配置，如Secure。
+  > 除此之外，还有```@Configuration```注解，应用程序的配置，如Secure。
 
 2. 目录结构（非核心路径已略去）
 ```
@@ -97,15 +102,17 @@ security:
     password: foo
 ```
 
-更多配置可以参考网站：https://segmentfault.com/a/1190000004316731
+> 更多配置可以参考网站
+> https://segmentfault.com/a/1190000004316731
 
 ## 5. 测试
 每个模块开发完成之后，需要编写单元测试，包括controller, service的测试，测试代码放在src/test/java文件夹中
 
-一些关于测试的参考网址
-1. http://somefuture.iteye.com/blog/2247207
-2. http://jinnianshilongnian.iteye.com/blog/2004660
-3. http://www.blogjava.net/usherlight/archive/2015/06/16/425740.html
+> 关于测试的参考网址
+
+> 1. http://somefuture.iteye.com/blog/2247207
+> 2. http://jinnianshilongnian.iteye.com/blog/2004660
+> 3. http://www.blogjava.net/usherlight/archive/2015/06/16/425740.html
 
 ## 6. 学习开发参考网站
 1. http://blog.csdn.net/zgmzyr/article/details/49837077 （强烈推荐）
