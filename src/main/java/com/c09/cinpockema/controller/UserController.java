@@ -45,9 +45,10 @@ public class UserController {
     	return userService.findAll();
     }
     
-    // curl localhost:8080/user  -H "Content-Type: application/json" -d "{\"username\": \"admin\", \"password\":\"admin123\"}"
+    // curl localhost:8080/api/user  -H "Content-Type: application/json" -d "{\"username\": \"test-user\", \"password\":\"test123\"}"
     @RequestMapping(value={"", "/"}, method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
+    @PreAuthorize("permitAll()")
     public User registUser(@Valid @RequestBody User user) {
     	return userService.create(user);
     }

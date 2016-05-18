@@ -18,17 +18,19 @@ server:
 # Spring settings
 spring: 
   # Use mysql, name of database is "cinpockema"
-#  datasource:
-#    driverClassName: com.mysql.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/cinpockema?useUnicode=true&characterEncoding=utf8
-#    username: root
-#    password:
-
-endpoints: 
-  actuator: 
-    enabled: true
-    path: /api/admin/
-    sensitive: true
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cinpockema?useUnicode=true&characterEncoding=utf8
+    username: root
+    password:
+    
+  jpa:
+    hibernate:
+      ddl-auto: "create"
+  
+#  http:
+#    encoding:
+#      charset: UTF-8
 
 # Security settings
 security: 
@@ -37,5 +39,8 @@ security:
 #  user:
 #    name: secured
 #    password: foo
+
+endpoints: 
+  sensitive: true
 
 
