@@ -21,25 +21,25 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 public class MovieComment {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id; 
-	
+	private long id;
+
 	@Column(nullable=false)
 	private int score;
-	
+
 	@Column(nullable=false, length=1024)
 	private String content;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name="user_id", nullable = false)
+    @JoinColumn(name="user_id")
 	private User user;
-	
+
 	public MovieComment() {
 		setCreateTime(new Date(System.currentTimeMillis()));
 	}
-	
+
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -49,9 +49,9 @@ public class MovieComment {
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name="movie_id", nullable=false)
+    @JoinColumn(name="movie_id")
 	private Movie movie;
-	
+
 	public long getId() {
 		return id;
 	}
@@ -92,5 +92,5 @@ public class MovieComment {
 	public void setMovie(Movie movie) {
 		this.movie = movie;
 	}
-	
+
 }

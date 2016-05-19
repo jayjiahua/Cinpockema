@@ -18,17 +18,17 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Movie {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id; 
-	
+	private long id;
+
 	@Column(nullable=false)
 	private String name;
-	
+
 	@Column(nullable=false)
 	private String description;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "movie", fetch = FetchType.LAZY)    
 	List<MovieComment> movieComments = new ArrayList<MovieComment>();
 
@@ -64,10 +64,10 @@ public class Movie {
 	public void setMovieComments(List<MovieComment> movieComments) {
 		this.movieComments = movieComments;
 	}
-	
+
 	public void addMovieComment(MovieComment movieComment) {
 		movieComment.setMovie(this);
 		movieComments.add(movieComment);
 	}
-	
+
 }

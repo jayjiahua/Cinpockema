@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface MovieCommentRepository extends CrudRepository<MovieComment, Long> {
 	List<MovieComment> findByMovieId(long id);
-//	void deleteByUserIdAndId(Long userId, long id);
 }

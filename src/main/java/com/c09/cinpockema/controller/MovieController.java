@@ -23,30 +23,30 @@ import com.c09.cinpockema.service.SessionService;
 @RestController
 @RequestMapping("/movies")
 public class MovieController {
-	
+
 	@Autowired
 	private MovieService movieService;
-	
+
 	@Autowired
 	private SessionService sessionService;
-	
-    @RequestMapping(value={""}, method = RequestMethod.GET)
+
+    @RequestMapping(value = {""}, method = RequestMethod.GET)
     public Iterable<Movie> listMovies() {
     	return movieService.listMovies();
     }
-    
-    @RequestMapping(value={""}, method=RequestMethod.POST)
+
+    @RequestMapping(value = {""}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
     public void createMovie(@Valid @RequestBody Movie movie) {
     	movieService.createMovie(movie);
     }
-    
+
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public Movie getMovieById(@PathVariable("id") long movieId) {
     	return movieService.getMovieById(movieId);
     }
-    
+
     @RequestMapping(value={"/{id}"}, method=RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
     @PreAuthorize("hasAuthority('admin')")
@@ -54,33 +54,37 @@ public class MovieController {
     	movie.setId(id);
     	movieService.updateMovie(movie);
     }
-    
+
     @RequestMapping(value={"/{id}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('admin')")
     public void deleteMovieById(@PathVariable("id") long id) {
     	movieService.deleteMovieById(id);
     }
-    
+
     @RequestMapping(value="/{id}/comments", method = RequestMethod.GET)
     public List<MovieComment> listCommentsByMovieId(@PathVariable("id") long id) {
     	return movieService.listCommentsByMovieId(id);
     }
-    
+
+    // curl localhost:8080/api/movies/4/comments -u admin:admin -H "Content-Type: application/json" -d "{\"score\": 1000, \"content\":\"eat some shit\"}"
     @RequestMapping(value={"/{id}/comments"}, method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('admin', 'user')")
+    @PreAuthorize("hasAnyAuthority('admin', 'user')")
     public void createComment(@Valid @RequestBody MovieComment movieComment, @PathVariable("id") long id) {
     	User user = sessionService.getCurrentUser();
     	Movie movie = movieService.getMovieById(id);
     	movieService.createComment(movieComment, movie, user);
     }
-    
+
     @RequestMapping(value={"/{movieId}/comments/{commentId}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAuthority('admin', 'user')")
+    @PreAuthorize("hasAnyAuthority('admin', 'user')")
     public void deleteCommentById(@PathVariable("commentId") long id) {
     	User user = sessionService.getCurrentUser();
-    	movieService.deleteCommentById(user, id);
+    	MovieComment movieComment = movieService.getCommentById(id);
+			if (user.getId() == movieComment.getUser().getId()) {
+				movieService.deleteComment(movieComment);
+			}
     }
 }

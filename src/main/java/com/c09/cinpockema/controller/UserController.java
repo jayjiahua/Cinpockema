@@ -24,7 +24,7 @@ import com.c09.cinpockema.service.SessionService;
 import com.c09.cinpockema.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 	
 	@Autowired
@@ -46,7 +46,7 @@ public class UserController {
     	return userService.listUsers();
     }
     
-    // curl localhost:8080/api/user  -H "Content-Type: application/json" -d "{\"username\": \"test-user\", \"password\":\"test123\"}"
+    // curl localhost:8080/api/users  -H "Content-Type: application/json" -d "{\"username\": \"test-user\", \"password\":\"test123\"}"
     @RequestMapping(value={"", "/"}, method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("permitAll()")

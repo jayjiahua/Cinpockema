@@ -27,62 +27,51 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class User implements UserDetails {
-	
+
 	public enum ROLE {
 		admin,
 		user
 	}
-	
+
 	public enum GENDER {
 		unknow,
 		male,
 		female
 	}
-	
+
 	static public BCryptPasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder(4);
 	}
-	
+
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;  
-	
+	private long id;
+
 	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
     private ROLE role;
-	
-	@Column(nullable=false, unique=true, length=30)
-	private String username;  
-	
-	@Column(nullable=false)
-	private String password;  
 
-	@Column(length=30)	
+	@Column(nullable=false, unique=true, length=30)
+	private String username;
+
+	@Column(nullable=false)
+	private String password;
+
+	@Column(length=30)
 	private String nickname;
-	
+
 	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
 	private GENDER gender;
-	
+
 	@Column(length=128)
 	private String avatarUrl;
-	
+
 	private String signature;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy ="user", fetch=FetchType.LAZY)    
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy ="user", fetch=FetchType.LAZY)
 	List<MovieComment> movieComments = new ArrayList<MovieComment>();
-
-	@JsonBackReference
-	public List<MovieComment> getMovieComments() {
-		return movieComments;
-	}
-
-
-	public void setMovieComments(List<MovieComment> movieComments) {
-		this.movieComments = movieComments;
-	}
-
 
 	public String getNickname() {
 		return nickname;
@@ -130,8 +119,8 @@ public class User implements UserDetails {
 		setGender(User.GENDER.unknow);
 		setNickname("新用户");
 	}
-	
-	
+
+
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -159,7 +148,7 @@ public class User implements UserDetails {
 		this.password = getPasswordEncoder().encode(password);
 	}
 
-	
+
 	public ROLE getRole() {
 		return role;
 	}
@@ -167,12 +156,12 @@ public class User implements UserDetails {
 	public void setRole(ROLE role) {
 		this.role = role;
 	}
-	
+
 	public void addMovieComment(MovieComment movieComment) {
 		movieComment.setUser(this);
 		movieComments.add(movieComment);
 	}
-	
+
 	@Override
 	@JsonBackReference
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -208,5 +197,5 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
+
 }

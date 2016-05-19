@@ -15,16 +15,16 @@ import com.c09.cinpockema.entities.repositories.UserRepository;
 
 @Service
 public class DataInitService {
-	
-    @Autowired 
+
+    @Autowired
     UserRepository userRepository;
 
     @Autowired
     MovieRepository movieRepository;
-    
+
     @Autowired
     MovieCommentRepository movieCommentRepository;
-    
+
     @PostConstruct
     public void userDataInit(){
         User admin = new User();
@@ -39,20 +39,20 @@ public class DataInitService {
         user.setRole(User.ROLE.user);
         userRepository.save(user);
     }
-    
+
     @PostConstruct
     public void movieDataInit(){
         User user = new User();
         user.setUsername("user-for-comment");
         user.setPassword("user");
         userRepository.save(user);
-        
+
         for (int k = 0 ; k < 3 ; k++) {
 	        Movie movie = new Movie();
 	        movie.setName("movie-" + k);
 	        movie.setDescription("Some shit");
 	        movieRepository.save(movie);
-	        
+
 	        for (int i = 0 ; i < 3 ; i++) {
 		        MovieComment movieComment = new MovieComment();
 		        movieComment.setScore(i);
@@ -63,13 +63,13 @@ public class DataInitService {
 		        // Is it a f**king bug ?
 		        // You should do as follows:
 		        movieComment.setUser(user);
-		        
+
 		        movie.addMovieComment(movieComment);
 	        }
 	        movieRepository.save(movie);
         }
     }
-    
+
     @PostConstruct
     public void foobarDataInit(){
     	// TODO movie data init
