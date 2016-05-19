@@ -73,7 +73,9 @@ mvn package && java -jar target/Cinpockema-0.0.1-SNAPSHOT.jar
 server:
   port: 8080              # 监听端口
   address: 127.0.0.1      # 监听地址
-  sessionTimeout: 30      # 待用
+  session:                
+    timeout: 30           # JSESSIONID过期时间（秒）
+    persistent: true      # 是否持久化session（应用重启后依然保存）
   contextPath: /api/      # url端点（公共前缀）
 
   # Tomcat specifics
@@ -92,6 +94,9 @@ spring:
     url: jdbc:mysql://localhost:3306/cinpockema?useUnicode=true&characterEncoding=utf8
     username: root
     password:
+  jpa:
+    hibernate:            # mysql自动建表设置
+      ddl-auto: "create"  # 每次开启应用时将drop掉上次的数据库并重建，还可选"create-drop"或"update"等
 
 # Security settings
 security:

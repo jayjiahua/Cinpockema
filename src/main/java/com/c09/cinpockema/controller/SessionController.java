@@ -29,7 +29,14 @@ public class SessionController {
     @RequestMapping(value={"", "/"}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority({'admin', 'user'})")
-    public void loginUser() {
+    public void login() {
     	sessionService.login();
+    }
+    
+    @RequestMapping(value={"", "/"}, method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAnyAuthority({'admin', 'user'})")
+    public void logout() {
+    	sessionService.logout();
     }
 }

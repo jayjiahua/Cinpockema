@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,22 +36,22 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAnyAuthority({'admin', 'user'})")
     public User getUserById(@PathVariable("id") long id) {
-    	return userService.findById(id);
+    	return userService.getUserById(id);
     }
 	
     @RequestMapping(value={"", "/"}, method=RequestMethod.GET)
     @PreAuthorize("hasAuthority('admin')")
-    public Iterable<User> getAllUser() {
+    public Iterable<User> listUsers() {
     	User user = sessionService.getCurrentUser();
-    	return userService.findAll();
+    	return userService.listUsers();
     }
     
     // curl localhost:8080/api/user  -H "Content-Type: application/json" -d "{\"username\": \"test-user\", \"password\":\"test123\"}"
     @RequestMapping(value={"", "/"}, method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("permitAll()")
-    public User registUser(@Valid @RequestBody User user) {
-    	return userService.create(user);
+    public User createUser(@Valid @RequestBody User user) {
+    	return userService.createUser(user);
     }
     
 }

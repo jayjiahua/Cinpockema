@@ -38,29 +38,28 @@ public class UserService implements UserDetailsService {
 		super();
 	}
 	
-	public User create(User user) {
+	public User createUser(User user) {
 		return userRepository.save(user);
 	}    
 	
-	public Iterable<User> findAll() {
+	public Iterable<User> listUsers() {
 		return userRepository.findAll();
 	}
 	
-	public User findById(long id) {   
+	public User getUserById(long id) {   
 		return userRepository.findOne(id);  
-	}    
+	}
 		
-	public User update(User user) {   
+	public User updateUser(User user) {   
 		return userRepository.save(user);   
 	}    
 	
-	public void deleteById(long id) {   
+	public void deleteUserById(long id) {   
 		userRepository.delete(id);   
 	}    
 	
-	public User findByUsername(String username) {   
+	public User getUserByUsername(String username) {   
 		return userRepository.findByUsername(username);  
 	}
-	
 	
 }

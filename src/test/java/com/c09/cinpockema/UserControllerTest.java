@@ -54,7 +54,7 @@ public class UserControllerTest {
     @Before  
     public void setUp() {  
         UserController userController = Mockito.mock(UserController.class);  
-        Mockito.when(userController.registUser(Mockito.any(User.class))).then(returnsFirstArg());  
+        Mockito.when(userController.createUser(Mockito.any(User.class))).then(returnsFirstArg());  
         
         User user = new User();
         user.setId(99L);
@@ -73,7 +73,7 @@ public class UserControllerTest {
         users.add(user);
         users.add(user2);
         
-        Mockito.when(userController.getAllUser()).thenReturn(users);
+        Mockito.when(userController.listUsers()).thenReturn(users);
         
         mvc = MockMvcBuilders.standaloneSetup(userController).build();
 //        restTemplate = new RestTemplate();
