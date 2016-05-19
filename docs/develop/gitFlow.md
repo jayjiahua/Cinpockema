@@ -12,66 +12,72 @@
 
 ## 3. 命令参考
 1. 克隆仓库到本地
-```
-git clone git@github.com:jayjiahua/Cinpockema.git
-```
+  ```
+  git clone git@github.com:jayjiahua/Cinpockema.git
+  ```
 
 2. 切换到develop分支
-```
-git checkout develop
-```
+  ```
+  git checkout develop
+  ```
 
 3. 在develop分支基础上开辟一条新的分支
-```
-git checkout -b xxx-develop
-```
+  ```
+  git checkout -b xxx-develop
+  ```
 
 4. 推送分支
-```
-git push origin yourdev:yourdev
-```
+  ```
+  git push origin yourdev:yourdev
+  ```
 
 5. 合并分支(假设当前在xxx-develop分支下)
-```
-git merge --no-ff develop
-```
+  ```
+  git merge --no-ff develop
+  ```
 
 6. 更新分支
-```
-git pull origin develop
-```
+  ```
+  git pull origin develop
+  ```
 
 ## 4. Example
 对于一个从未参与本项目的人，他应该这么做：
 1. 克隆仓库
-```
-git clone git@github.com:jayjiahua/Cinpockema.git
-```
+  ```
+  git clone git@github.com:jayjiahua/Cinpockema.git
+  ```
+  
 2. 切换到develop分支
-```
-git checkout develop
-```
+  ```
+  git checkout develop
+  ```
 
 3. 在develop分支基础上开辟一条新的分支
-```
-git checkout -b xxx-develop
-```
+  ```
+  git checkout -b xxx-develop
+  ```
+  
 4. 通过操作3，已经自动切换到xxx-develop分支，可在此分支下coding。
 
 5. Coding完成并测试通过后，查看分支状态
-```
-git status
-```
+  ```
+  git status
+  ```
+  
 6. 会出现一个列表，红色的是待提交的文件。根据列表上的条目，把自己需要提交的文件放到待提交区（filename可以用tab键补全）
-```
-git add filename
-```
+  ```
+  git add filename
+  ```
+  
 7. 添加完成后，提交（必须有-m参数，即更新描述）
-```
-git commit -m "add sth"
-```
+  ```
+  git commit -m "add sth"
+  ```
+  
 8. 然后push上去远端
-```
-git push origin xxx-develop:xxx-develop
-```
+  ```
+  git push origin xxx-develop:xxx-develop
+  ```
+  
 9. 请求组员review，继续改进代码
