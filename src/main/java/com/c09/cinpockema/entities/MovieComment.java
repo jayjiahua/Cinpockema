@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -23,16 +26,21 @@ public class MovieComment {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 
+	@NotNull
+	@Min(value=0)
+	@Max(value=10)
 	@Column(nullable=false)
-	private int score;
+	private Integer score;
 
+	@NotNull
+	@Size(max=1024)
 	@Column(nullable=false, length=1024)
 	private String content;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 
-	@ManyToOne(cascade = CascadeType.ALL, optional = false)
+	@ManyToOne(cascade = { CascadeType.MERGE,CascadeType.REFRESH }, optional = false)
     @JoinColumn(name="user_id")
 	private User user;
 
@@ -48,7 +56,7 @@ public class MovieComment {
 		this.createTime = createTime;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL, optional = false)
+	@ManyToOne(cascade = { CascadeType.MERGE,CascadeType.REFRESH }, optional = false)
     @JoinColumn(name="movie_id")
 	private Movie movie;
 
@@ -60,11 +68,11 @@ public class MovieComment {
 		this.id = id;
 	}
 
-	public int getScore() {
+	public Integer getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(Integer score) {
 		this.score = score;
 	}
 

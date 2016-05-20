@@ -26,8 +26,8 @@ public class SessionService {
 		if (authentication instanceof AnonymousAuthenticationToken) {
 			return null;
 		} else {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			return userRepository.findByUsername(userDetails.getUsername());
+			return (User) authentication.getPrincipal();
+//			return userRepository.findByUsername(userDetails.getUsername());
 		}
 	}
 	

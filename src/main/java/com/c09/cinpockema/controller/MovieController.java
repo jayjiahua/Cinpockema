@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.c09.cinpockema.entities.Movie;
 import com.c09.cinpockema.entities.MovieComment;
@@ -38,13 +40,14 @@ public class MovieController {
     @RequestMapping(value = {""}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
-    public void createMovie(@Valid @RequestBody Movie movie) {
-    	movieService.createMovie(movie);
+    public Movie createMovie(@Valid @RequestBody Movie movie) {
+    	return movieService.createMovie(movie);
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public Movie getMovieById(@PathVariable("id") long movieId) {
-    	return movieService.getMovieById(movieId);
+    public ResponseEntity<Movie> getMovieById(@PathVariable("id") long movieId) {
+    	Movie movie = movieService.getMovieById(movieId);
+    	return new ResponseEntity<Movie>(movie, movie != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value={"/{id}"}, method=RequestMethod.PUT)
@@ -71,10 +74,10 @@ public class MovieController {
     @RequestMapping(value={"/{id}/comments"}, method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('admin', 'user')")
-    public void createComment(@Valid @RequestBody MovieComment movieComment, @PathVariable("id") long id) {
+    public MovieComment createComment(@Valid @RequestBody MovieComment movieComment, @PathVariable("id") long id) {
     	User user = sessionService.getCurrentUser();
     	Movie movie = movieService.getMovieById(id);
-    	movieService.createComment(movieComment, movie, user);
+    	return movieService.createComment(movieComment, movie, user);
     }
 
     @RequestMapping(value={"/{movieId}/comments/{commentId}"}, method=RequestMethod.DELETE)
@@ -83,8 +86,8 @@ public class MovieController {
     public void deleteCommentById(@PathVariable("commentId") long id) {
     	User user = sessionService.getCurrentUser();
     	MovieComment movieComment = movieService.getCommentById(id);
-			if (user.getId() == movieComment.getUser().getId()) {
-				movieService.deleteComment(movieComment);
-			}
+		if (user.getId() == movieComment.getUser().getId()) {
+			movieService.deleteComment(movieComment);
+		}
     }
 }

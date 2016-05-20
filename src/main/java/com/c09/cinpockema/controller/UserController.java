@@ -42,7 +42,6 @@ public class UserController {
     @RequestMapping(value={"", "/"}, method=RequestMethod.GET)
     @PreAuthorize("hasAuthority('admin')")
     public Iterable<User> listUsers() {
-    	User user = sessionService.getCurrentUser();
     	return userService.listUsers();
     }
     

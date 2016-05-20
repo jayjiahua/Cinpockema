@@ -27,6 +27,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: "create"
+    show-sql: true
   
 #  http:
 #    encoding:
@@ -42,5 +43,4 @@ security:
 
 endpoints: 
   sensitive: true
-
 

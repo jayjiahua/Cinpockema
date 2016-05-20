@@ -32,18 +32,18 @@ public class MovieService {
 		return movieCommentRepository.findByMovieId(id);
 	}
 
-	public void createMovie(Movie movie) {
-		movieRepository.save(movie);
+	public Movie createMovie(Movie movie) {
+		return movieRepository.save(movie);
 	}
 
 	public MovieComment getCommentById(long id) {
 		return movieCommentRepository.findOne(id);
 	}
 
-	public void createComment(MovieComment movieComment, Movie movie, User user) {
+	public MovieComment createComment(MovieComment movieComment, Movie movie, User user) {
         movieComment.setUser(user);
-        movie.addMovieComment(movieComment);
-        movieRepository.save(movie);
+        movieComment.setMovie(movie);
+        return movieCommentRepository.save(movieComment);
 	}
 
 	public void deleteComment(MovieComment movieComment) {
