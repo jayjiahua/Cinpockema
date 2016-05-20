@@ -1,4 +1,4 @@
-package com.c09.cinpockema;
+package com.c09.cinpockema.user;
 
 import static org.mockito.AdditionalAnswers.*;
 import static org.hamcrest.Matchers.*;
