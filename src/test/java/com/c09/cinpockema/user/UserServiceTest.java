@@ -2,6 +2,7 @@ package com.c09.cinpockema.user;
 
 import static org.junit.Assert.*;
 
+import java.awt.List;
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -17,9 +18,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.c09.cinpockema.Application;
-import com.c09.cinpockema.entities.User;
-import com.c09.cinpockema.entities.repositories.UserRepository;
-import com.c09.cinpockema.service.UserService;
+import com.c09.cinpockema.user.entities.User;
+import com.c09.cinpockema.user.entities.repositories.UserRepository;
+import com.c09.cinpockema.user.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -42,13 +43,25 @@ public class UserServiceTest {
 	
 	@Test
 	public void listUsers() {
+		assertTrue(((ArrayList<User>) userService.listUsers()).isEmpty());
+		
 		User user = new User();
 		user.setUsername("test-list");
 		user.setPassword("test-list");
 		
-		userRepository.save(user);
+		user = userRepository.save(user);
 
 		assertTrue(((ArrayList<User>) userService.listUsers()).size() == 1);
+		
+		User user2 = new User();
+		user2.setUsername("test-list2");
+		user2.setPassword("test-list2");
+		user2 = userRepository.save(user2);
+		
+		ArrayList<User> actualUserList = (ArrayList<User>) userService.listUsers();
+
+		assertEquals(user.getUsername(), actualUserList.get(0).getUsername());
+		assertEquals(user2.getUsername(), actualUserList.get(1).getUsername());
 	}
 	
 	

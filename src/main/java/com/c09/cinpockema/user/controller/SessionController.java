@@ -1,4 +1,4 @@
-package com.c09.cinpockema.controller;
+package com.c09.cinpockema.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.c09.cinpockema.entities.User;
-import com.c09.cinpockema.service.SessionService;
+import com.c09.cinpockema.user.entities.User;
+import com.c09.cinpockema.user.service.SessionService;
 
 @RestController
 @RequestMapping("/session")

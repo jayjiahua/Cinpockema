@@ -12,14 +12,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.c09.cinpockema.entities.User;
-import com.c09.cinpockema.entities.repositories.UserRepository;
-import com.c09.cinpockema.service.UserService;
+import com.c09.cinpockema.user.entities.User;
+import com.c09.cinpockema.user.entities.repositories.UserRepository;
+import com.c09.cinpockema.user.service.UserService;
 
 @Configuration
 //@EnableGlobalMethodSecurity(securedEnabled=true)
@@ -37,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
-		entryPoint.setRealmName("Spring Boot");
+		entryPoint.setRealmName("Cinpockema Authentication");
 		http.exceptionHandling().authenticationEntryPoint(entryPoint);
 		http.authorizeRequests()
 		.antMatchers("/**").permitAll()

@@ -1,4 +1,4 @@
-package com.c09.cinpockema.controller;
+package com.c09.cinpockema.movie.controller;
 
 import java.util.List;
 
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.c09.cinpockema.entities.Movie;
-import com.c09.cinpockema.entities.MovieComment;
-import com.c09.cinpockema.entities.User;
-import com.c09.cinpockema.service.MovieService;
-import com.c09.cinpockema.service.SessionService;
+import com.c09.cinpockema.movie.entities.Movie;
+import com.c09.cinpockema.movie.entities.MovieComment;
+import com.c09.cinpockema.movie.service.MovieService;
+import com.c09.cinpockema.user.entities.User;
+import com.c09.cinpockema.user.service.SessionService;
 
 @RestController
 @RequestMapping("/movies")

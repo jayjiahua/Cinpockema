@@ -1,4 +1,4 @@
-package com.c09.cinpockema.entities;
+package com.c09.cinpockema.movie.entities;
 
 import java.util.ArrayList;
 import java.util.HashSet;

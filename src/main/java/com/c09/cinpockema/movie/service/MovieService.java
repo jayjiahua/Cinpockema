@@ -1,15 +1,15 @@
-package com.c09.cinpockema.service;
+package com.c09.cinpockema.movie.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.c09.cinpockema.entities.Movie;
-import com.c09.cinpockema.entities.MovieComment;
-import com.c09.cinpockema.entities.User;
-import com.c09.cinpockema.entities.repositories.MovieCommentRepository;
-import com.c09.cinpockema.entities.repositories.MovieRepository;
+import com.c09.cinpockema.movie.entities.Movie;
+import com.c09.cinpockema.movie.entities.MovieComment;
+import com.c09.cinpockema.movie.entities.repositories.MovieCommentRepository;
+import com.c09.cinpockema.movie.entities.repositories.MovieRepository;
+import com.c09.cinpockema.user.entities.User;
 
 @Service
 public class MovieService {

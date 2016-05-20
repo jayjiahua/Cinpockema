@@ -1,4 +1,4 @@
-package com.c09.cinpockema.service;
+package com.c09.cinpockema.user.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,8 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.c09.cinpockema.entities.User;
-import com.c09.cinpockema.entities.repositories.UserRepository;
+import com.c09.cinpockema.user.entities.User;
+import com.c09.cinpockema.user.entities.repositories.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {

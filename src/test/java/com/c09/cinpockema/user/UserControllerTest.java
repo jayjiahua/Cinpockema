@@ -36,8 +36,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
 
-import com.c09.cinpockema.controller.UserController;
-import com.c09.cinpockema.entities.User;
+import com.c09.cinpockema.user.controller.UserController;
+import com.c09.cinpockema.user.entities.User;
 import com.jayway.jsonpath.JsonPath;
 
 

@@ -1,4 +1,4 @@
-package com.c09.cinpockema.controller;
+package com.c09.cinpockema.user.controller;
 
 import javax.validation.Valid;
 
@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.c09.cinpockema.entities.User;
-import com.c09.cinpockema.service.SessionService;
-import com.c09.cinpockema.service.UserService;
+import com.c09.cinpockema.user.entities.User;
+import com.c09.cinpockema.user.service.SessionService;
+import com.c09.cinpockema.user.service.UserService;
 
 @RestController
 @RequestMapping("/users")

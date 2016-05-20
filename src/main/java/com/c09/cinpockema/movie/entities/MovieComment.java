@@ -1,4 +1,4 @@
-package com.c09.cinpockema.entities;
+package com.c09.cinpockema.movie.entities;
 
 
 import java.util.Date;
@@ -18,6 +18,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.c09.cinpockema.user.entities.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity

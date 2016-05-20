@@ -1,9 +1,9 @@
-package com.c09.cinpockema.entities.repositories;
+package com.c09.cinpockema.user.entities.repositories;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import com.c09.cinpockema.entities.User;
+import com.c09.cinpockema.user.entities.User;
 
 public interface UserRepository extends CrudRepository<User, Long> { 
 	

@@ -1,8 +1,8 @@
-package com.c09.cinpockema.entities.repositories;
+package com.c09.cinpockema.movie.entities.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.c09.cinpockema.entities.Movie;
+import com.c09.cinpockema.movie.entities.Movie;
 
 
 public interface MovieRepository extends CrudRepository<Movie, Long> {

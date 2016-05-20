@@ -1,4 +1,4 @@
-package com.c09.cinpockema.entities;
+package com.c09.cinpockema.user.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,6 +23,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.c09.cinpockema.movie.entities.MovieComment;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
