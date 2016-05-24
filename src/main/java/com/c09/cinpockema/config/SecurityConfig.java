@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		entryPoint.setRealmName("Cinpockema Authentication");
 		http.exceptionHandling().authenticationEntryPoint(entryPoint);
 		http.authorizeRequests()
+		.antMatchers("/manage/**").hasAnyAuthority("admin")
 		.antMatchers("/**").permitAll()
 		.anyRequest().authenticated()
 		.and()

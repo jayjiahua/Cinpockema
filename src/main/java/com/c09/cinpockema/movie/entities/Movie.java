@@ -42,6 +42,17 @@ public class Movie {
 	
 	private String originalId;
 	
+	private boolean onShow;
+
+
+	
+	public boolean isOnShow() {
+		return onShow;
+	}
+
+	public void setOnShow(boolean onShow) {
+		this.onShow = onShow;
+	}
 
 	public String getTitle() {
 		return title;

@@ -28,6 +28,9 @@ spring:
     hibernate:
       ddl-auto: "create"
     show-sql: true
+  cache:
+    type: redis
+
     
 #  devtools:
 #    restart:
@@ -48,3 +51,9 @@ security:
 endpoints: 
   sensitive: true
 
+management:
+  security:
+    role: "admin"
+    enabled: true
+  context-path: "/manage"
+  

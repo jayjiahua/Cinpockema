@@ -34,7 +34,7 @@ public class MovieController {
 
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public Iterable<Movie> listMovies() {
-    	return movieService.listMovies();
+    	return movieService.listMovies(1);
     }
 
     @RequestMapping(value = {""}, method = RequestMethod.POST)
