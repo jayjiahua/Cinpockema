@@ -28,6 +28,10 @@ spring:
     hibernate:
       ddl-auto: "create"
     show-sql: true
+    
+#  devtools:
+#    restart:
+#      enabled: false # 禁用热更新
   
 #  http:
 #    encoding:
