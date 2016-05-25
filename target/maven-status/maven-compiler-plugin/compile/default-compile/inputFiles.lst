@@ -1,6 +1,7 @@
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\config\SecurityConfig.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\user\controller\SessionController.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\Application.java
+E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\config\RedisConfig.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\movie\entities\repositories\MovieRepository.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\movie\entities\MovieComment.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\user\service\UserService.java

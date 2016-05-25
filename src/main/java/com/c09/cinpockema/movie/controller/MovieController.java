@@ -1,17 +1,21 @@
 package com.c09.cinpockema.movie.controller;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -34,7 +38,7 @@ public class MovieController {
 
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public Iterable<Movie> listMovies() {
-    	return movieService.listMovies(1);
+    	return movieService.listMovies();
     }
 
     @RequestMapping(value = {""}, method = RequestMethod.POST)
@@ -89,5 +93,13 @@ public class MovieController {
 		if (user.getId() == movieComment.getUser().getId()) {
 			movieService.deleteComment(movieComment);
 		}
+    }
+    
+    @RequestMapping(value="/{id}/details", method = RequestMethod.GET)
+    public ResponseEntity<String> getMovieDetailsByOriginalId(@PathVariable("id") String id) {
+    	HttpHeaders headers = new HttpHeaders();
+        MediaType mediaType = new MediaType("application", "json", Charset.forName("utf-8"));
+        headers.setContentType(mediaType);
+        return new ResponseEntity<String>(movieService.getMovieDetails(id), headers, HttpStatus.OK);
     }
 }

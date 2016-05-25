@@ -1,5 +1,6 @@
 package com.c09.cinpockema.movie.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ import com.c09.cinpockema.user.entities.User;
 import com.jayway.jsonpath.JsonPath;
 
 @Service
-@CacheConfig(cacheNames = "movies")
 public class MovieService {
 
 	@Autowired
@@ -27,14 +27,25 @@ public class MovieService {
 	@Autowired
 	private MovieCommentRepository movieCommentRepository;
 
-    static private String DOUBAN_API = "http://api.douban.com/v2/movie/in_theaters?count=100";
+    static private String DOUBAN_ON_SHOW_API = "http://api.douban.com/v2/movie/in_theaters?count=100";
     
-    @Cacheable
-	public Iterable<Movie> listMovies(int what) {
+    static private String DOUBAN_DETAIL_API = "http://api.douban.com/v2/movie/subject/";
+    
+    @Cacheable(value = "movieList")
+	public Iterable<Movie> listMovies() {
+    	System.out.println("Cache Miss!");
+    	
+    	System.out.println("Make all movies off show");
+    	List<Movie> movies = movieRepository.findAll();
+    	for (Movie movie: movies) {
+    		movie.setOnShow(false);
+    	}
+    	movieRepository.save(movies);
+    	
+    	System.out.println("Getting on show movies from douban");    	
     	RestTemplate restTemplate = new RestTemplate();
-    	ResponseEntity<String> responseEntity = restTemplate.getForEntity(DOUBAN_API, String.class);
+    	ResponseEntity<String> responseEntity = restTemplate.getForEntity(DOUBAN_ON_SHOW_API, String.class);
     	String jsonResponse = responseEntity.getBody();
-    	System.err.println(jsonResponse);
     	
     	int total = JsonPath.read(jsonResponse, "$.total");
     	List<Object> ratingList = JsonPath.read(jsonResponse, "$.subjects[*].rating.average");    	
@@ -44,6 +55,8 @@ public class MovieService {
     	List<String> originalIdList = JsonPath.read(jsonResponse, "$.subjects[*].id");
     	List<String> imageUrlList = JsonPath.read(jsonResponse, "$.subjects[*].images.medium");
 
+    	List<Movie> onShowMovies = new ArrayList<Movie>();
+    	
         for (int k = 0 ; k < total ; k++) {
 
 	        Movie movie = new Movie();
@@ -61,13 +74,32 @@ public class MovieService {
 	        movie.setOriginalId(originalIdList.get(k));
 	        movie.setOriginalTitle(originalTitleList.get(k));
 	        movie.setImageUrl(imageUrlList.get(k));
-	        movieRepository.save(movie);
-        }
-		return movieRepository.findAll();
+	        movie.setOnShow(true);
+	        
+	        for (Movie originalMovie: movies) {
+	    		if (originalMovie.getOriginalId().equals(movie.getOriginalId())) {
+	    			movie.setId(originalMovie.getId());
+	    		}
+	    	}
+	        
+    		onShowMovies.add(movie);
+    		
+	    }
+        movieRepository.save(onShowMovies);
+		return onShowMovies;
 	}
 
+	@Cacheable(value = "movieInfo")
 	public Movie getMovieById(long id) {
+		System.out.println("Cache Miss!");
 		return movieRepository.findOne(id);
+	}
+	
+	@Cacheable(value = "movieDetails")
+	public String getMovieDetails(String originalId) {
+    	RestTemplate restTemplate = new RestTemplate();
+    	ResponseEntity<String> responseEntity = restTemplate.getForEntity(DOUBAN_DETAIL_API + originalId, String.class);
+    	return responseEntity.getBody();
 	}
 
 	public List<MovieComment> listCommentsByMovieId(long id) {

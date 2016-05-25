@@ -94,9 +94,9 @@ public class Movie {
 		this.imageUrl = imageUrl;
 	}
 
-	public String getDetailUrl() {
-		return "http://api.douban.com/v2/movie/subject/" + getOriginalId();
-	}
+//	public String getDetailUrl() {
+//		return "http://api.douban.com/v2/movie/subject/" + getOriginalId();
+//	}
 
 
 	public String getOriginalId() {
