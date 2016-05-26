@@ -9,6 +9,7 @@ Cinpockema (Backend) 是使用Spring-Boot微框架构建的Restful Service
 
 1. 使用tomcat作为web服务器
 2. 使用maven进行包管理
+3. 使用Redis作为数据缓存
 
 ## 2. 运行
 **有两种运行方式**
@@ -94,9 +95,24 @@ spring:
     url: jdbc:mysql://localhost:3306/cinpockema?useUnicode=true&characterEncoding=utf8
     username: root
     password:
+
   jpa:
     hibernate:            # mysql自动建表设置
       ddl-auto: "create"  # 每次开启应用时将drop掉上次的数据库并重建，还可选"create-drop"或"update"等
+
+  # 缓存及redis配置
+  cache:
+    type: redis
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    pool:
+      max-idle: 8 # pool settings ...  
+      min-idle: 0
+      max-active: 8
+      max-wait: -1
+    timeout: 0
 
 # Security settings
 security:
@@ -105,6 +121,17 @@ security:
   user:            # 基本认证的用户名和密码，由于是固定的，不符合业务需求，注释之
     name: secured  
     password: foo
+
+# 健康设置
+endpoints:
+  sensitive: true
+
+management:
+  security:
+    role: "admin"
+    enabled: true
+  context-path: "/manage"
+
 ```
 
 > 更多配置可以参考网站

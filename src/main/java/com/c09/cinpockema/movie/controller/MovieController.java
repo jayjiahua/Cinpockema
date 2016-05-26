@@ -41,12 +41,13 @@ public class MovieController {
     	return movieService.listMovies();
     }
 
-    @RequestMapping(value = {""}, method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('admin')")
-    public Movie createMovie(@Valid @RequestBody Movie movie) {
-    	return movieService.createMovie(movie);
-    }
+//    Not allowed to create movie by admin !    
+//    @RequestMapping(value = {""}, method = RequestMethod.POST)
+//    @ResponseStatus(value = HttpStatus.CREATED)
+//    @PreAuthorize("denyAll()") 
+//    public Movie createMovie(@Valid @RequestBody Movie movie) {
+//    	return movieService.createMovie(movie);
+//    }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Movie> getMovieById(@PathVariable("id") long movieId) {

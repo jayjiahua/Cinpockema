@@ -23,7 +23,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 public class Movie {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@NotNull
+//	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 
 	@NotNull
@@ -40,7 +41,6 @@ public class Movie {
 
 	private String imageUrl;
 	
-	private String originalId;
 	
 	private boolean onShow;
 
@@ -92,19 +92,6 @@ public class Movie {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
-	}
-
-//	public String getDetailUrl() {
-//		return "http://api.douban.com/v2/movie/subject/" + getOriginalId();
-//	}
-
-
-	public String getOriginalId() {
-		return originalId;
-	}
-
-	public void setOriginalId(String originalId) {
-		this.originalId = originalId;
 	}
 
 

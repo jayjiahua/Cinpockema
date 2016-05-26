@@ -1,6 +1,7 @@
 package com.c09.cinpockema.config;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -48,9 +49,12 @@ public class RedisConfig extends CachingConfigurerSupport {
 			public Object generate(Object target, Method method, Object... params) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(target.getClass().getName());
+				sb.append(".");
 				sb.append(method.getName());
+				sb.append(":");
 				for (Object obj : params) {
 					sb.append(obj.toString());
+					sb.append(",");
 				}
 				return sb.toString();
 			}
@@ -72,6 +76,9 @@ public class RedisConfig extends CachingConfigurerSupport {
 		RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
 		// Number of seconds before expiration. Defaults to unlimited (0)
 		cacheManager.setDefaultExpiration(60); //设置key-value超时时间
+//		Collection<String> cacheNames = new ArrayList<String>();
+//		cacheNames.add("Cinpockema");
+//		cacheManager.setCacheNames(cacheNames);
 		return cacheManager;
 	}
   
