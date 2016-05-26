@@ -1,4 +1,4 @@
-package com.c09.cinpockema.service;
+package com.c09.cinpockema.helper;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import com.jayway.jsonpath.JsonPath;
 
 
 @Component
-public class DataInitService {
+public class DataInitHelper {
 
     @Autowired
     UserRepository userRepository;

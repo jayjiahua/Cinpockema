@@ -46,20 +46,32 @@ mvn package && java -jar target/Cinpockema-0.0.1-SNAPSHOT.jar
 
 2. 目录结构（非核心路径已略去）
 ```
-  ├─config
-  |  └─application.yml    // 项目配置文件
   ├─logs     // tomcat access log
-  ├─src      // 源码
-  │  └─main
+  ├─src
+  │  ├─main
+  │  │  ├─java
+  │  │  │  └─com
+  │  │  │      └─c09
+  │  │  │          └─cinpockema
+  │  │  │              ├─config
+  │  │  │              ├─movie
+  │  │  │              │  ├─controller
+  │  │  │              │  ├─entities
+  │  │  │              │  │  └─repositories
+  │  │  │              │  └─service
+  │  │  │              ├─helper
+  │  │  │              └─user
+  │  │  │                  ├─controller
+  │  │  │                  ├─entities
+  │  │  │                  │  └─repositories
+  │  │  │                  └─service
+  │  │  └─resources
+  │  │      └─config
+  │  └─test
   │      └─java
   │          └─com
   │              └─c09
   │                  └─cinpockema
-  │                      ├─config          // 应用配置文件
-  │                      ├─controller      // 控制器
-  │                      ├─entities        // 实体
-  │                      │  └─repositories // 仓库
-  │                      └─service         // 服务
   ├─pom.xml  // 包依赖
   |
   |...
