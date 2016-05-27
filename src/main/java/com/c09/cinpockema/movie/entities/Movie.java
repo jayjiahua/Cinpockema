@@ -13,9 +13,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
+import com.c09.cinpockema.cinema.entities.Cinema;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Movie {
@@ -72,5 +76,22 @@ public class Movie {
 		movieComment.setMovie(this);
 		movieComments.add(movieComment);
 	}
+	
+	@ManyToMany(mappedBy="movies")
+    private List<Cinema> cinemas = new ArrayList<Cinema>();
 
+	@JsonBackReference
+	public List<Cinema> getCinemas() {
+		return cinemas;
+	}
+
+	@JsonIgnore
+	public void setCinemas(List<Cinema> cinemas) {
+		this.cinemas = cinemas;
+	}
+	
+	public void addCinema(Cinema cinema) {
+		cinemas.add(cinema);
+	}
+	
 }
