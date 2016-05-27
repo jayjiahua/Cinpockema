@@ -11,6 +11,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+
+import com.c09.cinpockema.cinema.entities.Cinema;
+import com.c09.cinpockema.cinema.entities.CinemaComment;
+import com.c09.cinpockema.cinema.entities.Hall;
+import com.c09.cinpockema.cinema.entities.Seat;
+import com.c09.cinpockema.cinema.entities.repositories.CinemaCommentRepository;
+import com.c09.cinpockema.cinema.entities.repositories.CinemaRepository;
+import com.c09.cinpockema.cinema.entities.repositories.HallRepository;
+import com.c09.cinpockema.cinema.entities.repositories.SeatRepository;
+
 import com.c09.cinpockema.movie.entities.Movie;
 import com.c09.cinpockema.movie.entities.MovieComment;
 import com.c09.cinpockema.movie.entities.repositories.MovieCommentRepository;
@@ -31,6 +41,18 @@ public class DataInitHelper {
 
     @Autowired
     MovieCommentRepository movieCommentRepository;
+    
+    @Autowired
+    CinemaRepository cinemaRepository;
+    
+    @Autowired
+    CinemaCommentRepository cinemaCommentRepository;
+    
+    @Autowired
+    HallRepository hallRepository;
+    
+    @Autowired
+    SeatRepository seatRepository;
 
     @PostConstruct
     public void userDataInit(){
@@ -101,6 +123,93 @@ public class DataInitHelper {
 //		        movie.addMovieComment(movieComment);
 //	        }
 //	        movieRepository.save(movie);
+//        }
+    }
+
+//    @PostConstruct
+//    public void movieDataInit(){
+//        User user = new User();
+//        user.setUsername("user-for-movie-comment");
+//        user.setPassword("user");
+//        user.setRole(User.ROLE.user);
+//        userRepository.save(user);
+//
+//        for (int k = 0 ; k < 3 ; k++) {
+//	        Movie movie = new Movie();
+//	        movie.setTitle("movie-" + k);
+//	        movie.setRating(8.8);
+//	        movieRepository.save(movie);
+//
+//	        for (int i = 0 ; i < 3 ; i++) {
+//		        MovieComment movieComment = new MovieComment();
+//		        movieComment.setScore(i);
+//		        movieComment.setContent("movie-" + k + "-comment-" + i);
+//
+//		        // Warning: Don't do this or you will ...
+//		        // user.addMovieComment(movieComment);
+//		        // Is it a f**king bug ?
+//		        // You should do as follows:
+//		        movieComment.setUser(user);
+//
+//		        movie.addMovieComment(movieComment);
+//	        }
+//	        movieRepository.save(movie);
+//        }
+//    }
+    
+    @PostConstruct
+    public void cinemaDataInit() {
+//    	User user = new User();
+//        user.setUsername("user-for-cinema-comment");
+//        user.setPassword("user");
+//        userRepository.save(user);
+//        
+//        Movie movie1 = new Movie();
+//        movie1.setTitle("movie-1-for-cinema");
+//        movie1.setRating(8.8);
+//        Movie movie2 = new Movie();
+//        movie2.setTitle("movie-2-for-cinema");
+//        movie2.setRating(8.8);
+//        movieRepository.save(movie1);
+//        movieRepository.save(movie2);
+//        
+//        for (int k = 0 ; k < 3 ; k++) {
+//	        Cinema cinema = new Cinema();
+//	        cinema.setName("cinema-" + k);
+//	        cinema.setIntroduction("bull shit");
+//	        cinema.setLongitude(23.333);
+//	        cinema.setLatitude(23.333);
+//	        
+//	        for (int i = 0; i < 3; i++) {
+//	        	Hall hall = new Hall();
+//	        	hall.setName("cinema-" + k + "-hall-" + i);
+//	        	
+//	        	for (int j = 0; j < 3; j++) {
+//	        		Seat seat = new Seat();
+//	        		seat.setCol(j);
+//	        		seat.setRow(j);;
+//	        		
+//	        		hall.addSeat(seat);;
+//	        	}
+//	        	
+//	        	cinema.addHall(hall);
+//	        }
+//	        cinemaRepository.save(cinema);
+//	        
+//	        cinema.addMovie(movie1);
+//	        cinema.addMovie(movie2);
+//
+//	        for (int i = 0 ; i < 3 ; i++) {
+//		        CinemaComment cinemaComment = new CinemaComment();
+//		        cinemaComment.setScore(i);
+//		        cinemaComment.setContent("cinema-" + k + "-comment-" + i);
+//
+//		        cinemaComment.setUser(user);
+//
+//		        cinema.addCinemaComment(cinemaComment);
+//	        }
+//	        cinemaRepository.save(cinema);
+//	        
 //        }
     }
 
