@@ -19,6 +19,7 @@ import com.c09.cinpockema.user.entities.User;
 import com.c09.cinpockema.user.entities.repositories.UserRepository;
 import com.jayway.jsonpath.JsonPath;
 
+
 @Component
 public class DataInitHelper {
 
