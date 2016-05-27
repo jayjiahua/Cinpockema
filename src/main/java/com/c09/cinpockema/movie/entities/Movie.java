@@ -16,8 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
-import com.c09.cinpockema.cinema.entities.Cinema;
 import org.hibernate.validator.constraints.Range;
+import com.c09.cinpockema.cinema.entities.Cinema;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -109,6 +109,7 @@ public class Movie {
 	public void setId(long id) {
 		this.id = id;
 	}
+
 
 	@JsonBackReference
 	public List<MovieComment> getMovieComments() {

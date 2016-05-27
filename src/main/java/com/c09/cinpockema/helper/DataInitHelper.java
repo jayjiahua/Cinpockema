@@ -11,6 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import com.c09.cinpockema.movie.entities.Movie;
+import com.c09.cinpockema.movie.entities.MovieComment;
+import com.c09.cinpockema.movie.entities.repositories.MovieCommentRepository;
+import com.c09.cinpockema.movie.entities.repositories.MovieRepository;
+import com.c09.cinpockema.user.entities.User;
+import com.c09.cinpockema.user.entities.repositories.UserRepository;
+import com.jayway.jsonpath.JsonPath;
+
 import com.c09.cinpockema.cinema.entities.Cinema;
 import com.c09.cinpockema.cinema.entities.CinemaComment;
 import com.c09.cinpockema.cinema.entities.Hall;
@@ -20,28 +28,11 @@ import com.c09.cinpockema.cinema.entities.repositories.CinemaRepository;
 import com.c09.cinpockema.cinema.entities.repositories.HallRepository;
 import com.c09.cinpockema.cinema.entities.repositories.SeatRepository;
 
-import com.c09.cinpockema.movie.entities.Movie;
-import com.c09.cinpockema.movie.entities.MovieComment;
-import com.c09.cinpockema.movie.entities.repositories.MovieCommentRepository;
-import com.c09.cinpockema.movie.entities.repositories.MovieRepository;
-import com.c09.cinpockema.user.entities.User;
-import com.c09.cinpockema.user.entities.repositories.UserRepository;
-import com.jayway.jsonpath.JsonPath;
-
 
 @Component
 public class DataInitHelper {
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    MovieRepository movieRepository;
-
-    @Autowired
-    MovieCommentRepository movieCommentRepository;
-    
-    @Autowired
+	
+	@Autowired
     CinemaRepository cinemaRepository;
     
     @Autowired
@@ -53,7 +44,14 @@ public class DataInitHelper {
     @Autowired
     SeatRepository seatRepository;
 
+    @Autowired
+    UserRepository userRepository;
 
+    @Autowired
+    MovieRepository movieRepository;
+
+    @Autowired
+    MovieCommentRepository movieCommentRepository;
 
     @PostConstruct
     public void userDataInit(){
@@ -127,36 +125,7 @@ public class DataInitHelper {
 //        }
     }
 
-//    @PostConstruct
-//    public void movieDataInit(){
-//        User user = new User();
-//        user.setUsername("user-for-movie-comment");
-//        user.setPassword("user");
-//        user.setRole(User.ROLE.user);
-//        userRepository.save(user);
-//
-//        for (int k = 0 ; k < 3 ; k++) {
-//	        Movie movie = new Movie();
-//	        movie.setTitle("movie-" + k);
-//	        movie.setRating(8.8);
-//	        movieRepository.save(movie);
-//
-//	        for (int i = 0 ; i < 3 ; i++) {
-//		        MovieComment movieComment = new MovieComment();
-//		        movieComment.setScore(i);
-//		        movieComment.setContent("movie-" + k + "-comment-" + i);
-//
-//		        // Warning: Don't do this or you will ...
-//		        // user.addMovieComment(movieComment);
-//		        // Is it a f**king bug ?
-//		        // You should do as follows:
-//		        movieComment.setUser(user);
-//
-//		        movie.addMovieComment(movieComment);
-//	        }
-//	        movieRepository.save(movie);
-//        }
-//    }
+
     
     @PostConstruct
     public void cinemaDataInit() {
@@ -213,6 +182,37 @@ public class DataInitHelper {
 //	        
 //        }
     }
+
+//  @PostConstruct
+//  public void movieDataInit(){
+//      User user = new User();
+//      user.setUsername("user-for-movie-comment");
+//      user.setPassword("user");
+//      user.setRole(User.ROLE.user);
+//      userRepository.save(user);
+//
+//      for (int k = 0 ; k < 3 ; k++) {
+//	        Movie movie = new Movie();
+//	        movie.setTitle("movie-" + k);
+//	        movie.setRating(8.8);
+//	        movieRepository.save(movie);
+//
+//	        for (int i = 0 ; i < 3 ; i++) {
+//		        MovieComment movieComment = new MovieComment();
+//		        movieComment.setScore(i);
+//		        movieComment.setContent("movie-" + k + "-comment-" + i);
+//
+//		        // Warning: Don't do this or you will ...
+//		        // user.addMovieComment(movieComment);
+//		        // Is it a f**king bug ?
+//		        // You should do as follows:
+//		        movieComment.setUser(user);
+//
+//		        movie.addMovieComment(movieComment);
+//	        }
+//	        movieRepository.save(movie);
+//      }
+//  }
 
     @PostConstruct
     public void foobarDataInit(){
