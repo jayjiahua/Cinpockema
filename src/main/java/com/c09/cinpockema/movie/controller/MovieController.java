@@ -1,17 +1,21 @@
 package com.c09.cinpockema.movie.controller;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -37,12 +41,13 @@ public class MovieController {
     	return movieService.listMovies();
     }
 
-    @RequestMapping(value = {""}, method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('admin')")
-    public Movie createMovie(@Valid @RequestBody Movie movie) {
-    	return movieService.createMovie(movie);
-    }
+//    Not allowed to create movie by admin !    
+//    @RequestMapping(value = {""}, method = RequestMethod.POST)
+//    @ResponseStatus(value = HttpStatus.CREATED)
+//    @PreAuthorize("denyAll()") 
+//    public Movie createMovie(@Valid @RequestBody Movie movie) {
+//    	return movieService.createMovie(movie);
+//    }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Movie> getMovieById(@PathVariable("id") long movieId) {
@@ -89,5 +94,13 @@ public class MovieController {
 		if (user.getId() == movieComment.getUser().getId()) {
 			movieService.deleteComment(movieComment);
 		}
+    }
+    
+    @RequestMapping(value="/{id}/details", method = RequestMethod.GET)
+    public ResponseEntity<String> getMovieDetailsByOriginalId(@PathVariable("id") String id) {
+    	HttpHeaders headers = new HttpHeaders();
+        MediaType mediaType = new MediaType("application", "json", Charset.forName("utf-8"));
+        headers.setContentType(mediaType);
+        return new ResponseEntity<String>(movieService.getMovieDetails(id), headers, HttpStatus.OK);
     }
 }

@@ -1,15 +1,10 @@
 package com.c09.cinpockema.user.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -46,7 +41,8 @@ public class UserService implements UserDetailsService {
 		return userRepository.findAll();
 	}
 	
-	public User getUserById(long id) {   
+	public User getUserById(long id) {  
+		System.err.println("Cache Miss!");
 		return userRepository.findOne(id);  
 	}
 		

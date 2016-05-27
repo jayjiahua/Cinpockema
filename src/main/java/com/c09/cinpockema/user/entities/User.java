@@ -31,6 +31,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class User implements UserDetails {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6972959064945918099L;
+
 	public enum ROLE {
 		admin,
 		user
