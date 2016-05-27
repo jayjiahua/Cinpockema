@@ -19,6 +19,7 @@ import com.c09.cinpockema.cinema.entities.repositories.CinemaCommentRepository;
 import com.c09.cinpockema.cinema.entities.repositories.CinemaRepository;
 import com.c09.cinpockema.cinema.entities.repositories.HallRepository;
 import com.c09.cinpockema.cinema.entities.repositories.SeatRepository;
+
 import com.c09.cinpockema.movie.entities.Movie;
 import com.c09.cinpockema.movie.entities.MovieComment;
 import com.c09.cinpockema.movie.entities.repositories.MovieCommentRepository;
@@ -51,6 +52,8 @@ public class DataInitHelper {
     
     @Autowired
     SeatRepository seatRepository;
+
+
 
     @PostConstruct
     public void userDataInit(){

@@ -110,7 +110,6 @@ public class Movie {
 		this.id = id;
 	}
 
-
 	@JsonBackReference
 	public List<MovieComment> getMovieComments() {
 		return movieComments;
