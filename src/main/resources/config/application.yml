@@ -20,7 +20,7 @@ spring:
   # Use mysql, name of database is "cinpockema"
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/cinpockema?useUnicode=true&amp;characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/cinpockema?useUnicode=true&characterEncoding=utf8
     username: root
     password:
     
