@@ -103,7 +103,6 @@ public class DataInitHelper {
 //        }
     }
 
-
     @PostConstruct
     public void foobarDataInit(){
     	// TODO movie data init
