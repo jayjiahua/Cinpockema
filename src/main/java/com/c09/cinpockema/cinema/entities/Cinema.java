@@ -19,6 +19,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.c09.cinpockema.movie.entities.Movie;
+import com.c09.cinpockema.product.entities.Screening;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -67,9 +68,6 @@ public class Cinema {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema", fetch = FetchType.LAZY)    
 	List<Hall> halls = new ArrayList<Hall>();
-
-//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema", fetch = FetchType.LAZY)    
-//	List<Screening> screenings = new ArrayList<Screening>();
 	
 	public long getId() {
 		return id;
@@ -170,4 +168,20 @@ public class Cinema {
 		halls.add(hall);
 	}
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema", fetch = FetchType.LAZY)    
+	List<Screening> screenings = new ArrayList<Screening>();
+	
+	@JsonBackReference
+	public List<Screening> getScreenings() {
+		return screenings;
+	}
+	
+	@JsonIgnore
+	public void setScreenings(List<Screening> screenings) {
+		this.screenings = screenings;
+	}
+	
+	public void addScreening(Screening screening) {
+		screenings.add(screening);
+	}
 }
