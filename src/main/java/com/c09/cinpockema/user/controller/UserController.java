@@ -23,6 +23,13 @@ import com.c09.cinpockema.user.entities.User;
 import com.c09.cinpockema.user.service.SessionService;
 import com.c09.cinpockema.user.service.UserService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+
+@Api(value="用户模块", description="用户实体的CURD操作")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -33,12 +40,14 @@ public class UserController {
 	@Autowired
 	SessionService sessionService;
 	
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@ApiOperation(value="获取用户详细信息", notes="根据url的id来获取用户详细信息")
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAnyAuthority({'admin', 'user'})")
     public User getUserById(@PathVariable("id") long id) {
     	return userService.getUserById(id);
     }
 	
+	@ApiOperation(value="获取用户列表", notes="")	
     @RequestMapping(value={"", "/"}, method=RequestMethod.GET)
     @PreAuthorize("hasAuthority('admin')")
     public Iterable<User> listUsers() {
@@ -46,7 +55,8 @@ public class UserController {
     }
     
     // curl localhost:8080/api/users  -H "Content-Type: application/json" -d "{\"username\": \"test-user\", \"password\":\"test123\"}"
-    @RequestMapping(value={"", "/"}, method=RequestMethod.POST)
+	@ApiOperation(value="创建用户", notes="根据User对象创建用户")
+	@RequestMapping(value={"", "/"}, method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("permitAll()")
     public User createUser(@Valid @RequestBody User user) {
