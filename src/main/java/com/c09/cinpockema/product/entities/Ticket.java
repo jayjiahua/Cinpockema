@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.JoinTable;
@@ -18,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
 
 import com.c09.cinpockema.cinema.entities.Seat;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Ticket {
@@ -31,7 +31,7 @@ public class Ticket {
 	@JoinColumn(name="screening_id")
 	private Screening screening;
 	
-	@OneToOne(cascade = { CascadeType.MERGE,CascadeType.REFRESH }, optional = false)
+	@ManyToOne(cascade = { CascadeType.MERGE,CascadeType.REFRESH }, optional = false)
 	@JoinColumn(name="seat_id")
 	private Seat seat;
 	
@@ -54,6 +54,7 @@ public class Ticket {
 	}
 	
 	public void setScreening(Screening screening) {
+		screening.addTicket(this);
 		this.screening = screening;
 	}
 	
@@ -62,6 +63,7 @@ public class Ticket {
 	}
 	
 	public void setSeat(Seat seat) {
+		seat.addTicket(this);
 		this.seat = seat;
 	}
 	

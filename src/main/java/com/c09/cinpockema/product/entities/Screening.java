@@ -54,8 +54,6 @@ public class Screening {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "screening", fetch = FetchType.LAZY)    
 	List<Ticket> tickets = new ArrayList<Ticket>();
 	
-	public Screening() {}
-	
 	public long getId() {
 		return id;
 	}
@@ -85,6 +83,7 @@ public class Screening {
 	}
 	
 	public void setMovie(Movie movie) {
+		movie.addScreening(this);
 		this.movie = movie;
 	}
 	
@@ -93,10 +92,11 @@ public class Screening {
 	}
 	
 	public void setHall(Hall hall) {
+		hall.addScreening(this);
 		this.hall = hall;
 	}
 	
-	@JsonBackReference
+	@JsonIgnore
 	public List<Ticket> getTickets() {
 		return tickets;
 	}
@@ -107,7 +107,16 @@ public class Screening {
 	}
 	
 	public void addTicket(Ticket ticket) {
-		ticket.setScreening(this);
 		tickets.add(ticket);
+	}
+	
+	@JsonIgnore
+	public Cinema getCinema() {
+		return cinema;
+	}
+	
+	public void setCinema(Cinema cinema) {
+		cinema.addScreening(this);
+		this.cinema = cinema;
 	}
 }

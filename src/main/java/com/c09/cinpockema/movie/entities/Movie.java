@@ -158,7 +158,6 @@ public class Movie {
 	}
 	
 	public void addScreening(Screening screening) {
-		screening.setMovie(this);
 		screenings.add(screening);
 	}
 }

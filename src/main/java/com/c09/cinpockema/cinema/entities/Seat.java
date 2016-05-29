@@ -79,17 +79,20 @@ public class Seat {
 		this.hall = hall;
 	}
 	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "seat", fetch = FetchType.LAZY)    
-	@JoinColumn(name="ticket_id")
-	private Ticket ticket;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "seat", fetch = FetchType.LAZY)
+	private List<Ticket> tickets = new ArrayList<Ticket>();;
 	
-	@JsonBackReference
-	public Ticket getTicket() {
-		return ticket;
+	@JsonIgnore
+	public List<Ticket> getTickets() {
+		return tickets;
 	}
 
 	@JsonIgnore
-	public void setTicket(Ticket ticket) {
-		this.ticket = ticket;
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
+	
+	public void addTicket(Ticket ticket) {
+		tickets.add(ticket);
 	}
 }

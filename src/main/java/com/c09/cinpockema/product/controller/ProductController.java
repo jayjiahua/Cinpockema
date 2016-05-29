@@ -39,9 +39,6 @@ public class ProductController {
 	private CinemaService cinemaService;
 	
 	@Autowired
-	private SessionService sessionService;
-	
-	@Autowired
 	private MovieService movieService;
 	
 	// curl localhost:8080/api/product/screenings/1
@@ -50,7 +47,7 @@ public class ProductController {
 		return productService.listScreeningsByCinameId(cinemaId);
 	}
 	
-	// curl localhost:8080/api/product/screenings -u admin:admin -H "Content-Type: application/json" -d "{\"startTime\":\"11:30\", \"runningTime\":120}"
+	// curl localhost:8080/api/product/screenings/1/1 -u admin:admin -H "Content-Type: application/json" -d "{\"startTime\":\"11:30\", \"runningTime\":120}"
 	@RequestMapping(value = {"/screenings/{hallId}/{movieId}"}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")

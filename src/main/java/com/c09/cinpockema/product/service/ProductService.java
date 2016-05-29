@@ -21,11 +21,11 @@ public class ProductService {
 	@Autowired
 	private TicketRepository ticketRepository;
 	
-	
-	
 	public Screening createScreening(Screening screening, Hall hall, Movie movie) {
+		if (!movie.isOnShow())return null;
 		screening.setHall(hall);
 		screening.setMovie(movie);
+		screening.setCinema(hall.getCinema());
 		return screeningRepository.save(screening);
 	}
 	

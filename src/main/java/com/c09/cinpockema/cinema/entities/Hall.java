@@ -101,7 +101,6 @@ public class Hall {
 	}
 	
 	public void addScreening(Screening screening) {
-		screening.setHall(this);
 		screenings.add(screening);
 	}
 	
