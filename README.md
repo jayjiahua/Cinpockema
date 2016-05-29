@@ -149,7 +149,14 @@ management:
 > 更多配置可以参考网站
 > https://segmentfault.com/a/1190000004316731
 
-## 5. 测试
+## 5. 编写文档
+1. 使用**swagger2**，基于注解的文档编写
+
+2. 上手简单且功能强大，用法可以参考http://www.tuicool.com/articles/fIbeee ，也可以参考已经写好的项目代码
+
+3. 文档访问地址为：/api/swagger-ui.html
+
+## 6. 测试
 每个模块开发完成之后，需要编写单元测试，包括controller, service的测试，测试代码放在src/test/java文件夹中
 
 > 关于测试的参考网址
@@ -158,7 +165,7 @@ management:
 > 2. http://jinnianshilongnian.iteye.com/blog/2004660
 > 3. http://www.blogjava.net/usherlight/archive/2015/06/16/425740.html
 
-## 6. 学习开发参考网站
+## 7. 学习开发参考网站
 1. http://blog.csdn.net/zgmzyr/article/details/49837077 （强烈推荐）
 2. http://www.ibm.com/developerworks/cn/java/j-lo-spring-boot/
 3. http://docs.spring.io/spring/docs/4.0.0.RELEASE/spring-framework-reference/html/

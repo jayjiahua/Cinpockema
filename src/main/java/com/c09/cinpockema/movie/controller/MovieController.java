@@ -26,6 +26,14 @@ import com.c09.cinpockema.movie.service.MovieService;
 import com.c09.cinpockema.user.entities.User;
 import com.c09.cinpockema.user.service.SessionService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import springfox.documentation.annotations.ApiIgnore;
+
+
+@Api(value="电影模块", description="Movie及其评论的CURD操作")
 @RestController
 @RequestMapping("/movies")
 public class MovieController {
@@ -36,6 +44,7 @@ public class MovieController {
 	@Autowired
 	private SessionService sessionService;
 
+	@ApiOperation(value="获取当前正在上映的电影")
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public Iterable<Movie> listMovies() {
     	return movieService.listMovies();
@@ -49,12 +58,14 @@ public class MovieController {
 //    	return movieService.createMovie(movie);
 //    }
 
+	@ApiOperation(value="获取单部电影的简单介绍")
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Movie> getMovieById(@PathVariable("id") long movieId) {
     	Movie movie = movieService.getMovieById(movieId);
     	return new ResponseEntity<Movie>(movie, movie != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
+	@ApiIgnore
     @RequestMapping(value={"/{id}"}, method=RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
     @PreAuthorize("hasAuthority('admin')")
@@ -63,6 +74,7 @@ public class MovieController {
     	movieService.updateMovie(movie);
     }
 
+	@ApiIgnore
     @RequestMapping(value={"/{id}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('admin')")
@@ -70,13 +82,15 @@ public class MovieController {
     	movieService.deleteMovieById(id);
     }
 
+	@ApiOperation(value="获取特定id电影的所有评论")
     @RequestMapping(value="/{id}/comments", method = RequestMethod.GET)
     public List<MovieComment> listCommentsByMovieId(@PathVariable("id") long id) {
     	return movieService.listCommentsByMovieId(id);
     }
 
     // curl localhost:8080/api/movies/4/comments -u admin:admin -H "Content-Type: application/json" -d "{\"score\": 1000, \"content\":\"eat some shit\"}"
-    @RequestMapping(value={"/{id}/comments"}, method=RequestMethod.POST)
+	@ApiOperation(value="给特定电影增加一条评论")
+	@RequestMapping(value={"/{id}/comments"}, method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('admin', 'user')")
     public MovieComment createComment(@Valid @RequestBody MovieComment movieComment, @PathVariable("id") long id) {
@@ -85,6 +99,7 @@ public class MovieController {
     	return movieService.createComment(movieComment, movie, user);
     }
 
+	@ApiOperation(value="删除特定评论")
     @RequestMapping(value={"/{movieId}/comments/{commentId}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyAuthority('admin', 'user')")
@@ -96,6 +111,7 @@ public class MovieController {
 		}
     }
     
+	@ApiOperation(value="获取某部电影详细信息")
     @RequestMapping(value="/{id}/details", method = RequestMethod.GET)
     public ResponseEntity<String> getMovieDetailsByOriginalId(@PathVariable("id") String id) {
     	HttpHeaders headers = new HttpHeaders();
