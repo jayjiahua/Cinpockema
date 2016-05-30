@@ -30,6 +30,10 @@ public class Cinema {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
+	
+	@NotNull
+	@Column(nullable=false)
+	private int cityId;
 
 	@NotNull
 	@Column(nullable=false)
@@ -38,6 +42,10 @@ public class Cinema {
 	@NotNull
 	@Column(nullable=false)
 	private String introduction;
+	
+	@NotNull
+	@Column(nullable=false)
+	private String address;
 	
 	private String phone;
 	
@@ -77,6 +85,14 @@ public class Cinema {
 		this.id = id;
 	}
 	
+	public int getCityId() {
+		return cityId;
+	}
+	
+	public void setCityId(int cityId) {
+		this.cityId = cityId;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -91,6 +107,14 @@ public class Cinema {
 	
 	public String getIntroduction() {
 		return introduction;
+	}
+	
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	public String getAddress() {
+		return address;
 	}
 	
 	public void setPhone(String phone) {

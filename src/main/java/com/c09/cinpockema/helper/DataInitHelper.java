@@ -134,6 +134,8 @@ public class DataInitHelper {
 	        cinema.setIntroduction("bull shit");
 	        cinema.setLongitude(23.333);
 	        cinema.setLatitude(23.333);
+	        cinema.setCityId(453);
+	        cinema.setAddress("SYSU 231");
 	        
 	        for (int i = 0; i < 3; i++) {
 	        	Hall hall = new Hall();
