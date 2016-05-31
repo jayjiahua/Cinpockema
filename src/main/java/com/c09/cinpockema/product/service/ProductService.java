@@ -29,9 +29,9 @@ public class ProductService {
 	@Autowired
 	private MovieService movieService;
 	
-	public Screening createScreening(Screening screening) {
-		Hall hall = cinemaService.getHallById(screening.getHallId());
-		Movie movie = movieService.getMovieById(screening.getMovieId());
+	public Screening createScreening(Screening screening, long hallId, long movieId) {
+		Hall hall = cinemaService.getHallById(hallId);
+		Movie movie = movieService.getMovieById(movieId);
 		screening.setHall(hall);
 		screening.setMovie(movie);
 		screening.setCinema(hall.getCinema());
@@ -50,10 +50,11 @@ public class ProductService {
 		screeningRepository.delete(id);
 	}
 	
-	public Ticket createTicket(Ticket ticket, Screening screening) {
+	public Ticket createTicket(Ticket ticket, long screeningId, long seatId) {
+		Screening screening = getScreeningById(screeningId);
+		Seat seat = cinemaService.getSeatById(seatId);
 		ticket.setScreening(screening);
-		ticket.setSeat(cinemaService.getSeatById(ticket.getSeatId()));
-		System.out.println(ticket.getSeatId());
+		ticket.setSeat(seat);
 		return ticketRepository.save(ticket);
 	}
 	

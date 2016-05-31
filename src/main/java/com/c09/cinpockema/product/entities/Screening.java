@@ -54,12 +54,6 @@ public class Screening {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "screening", fetch = FetchType.LAZY)    
 	List<Ticket> tickets = new ArrayList<Ticket>();
 	
-	@NotNull
-	private long tempHallId;
-	
-	@NotNull
-	private long tempMovieId;
-	
 	public long getId() {
 		return id;
 	}
@@ -124,23 +118,5 @@ public class Screening {
 	public void setCinema(Cinema cinema) {
 		cinema.addScreening(this);
 		this.cinema = cinema;
-	}
-	
-	@JsonBackReference
-	public long getHallId() {
-		return tempHallId;
-	}
-	
-	public void setTempHallId(long tempHallId) {
-		this.tempHallId = tempHallId;
-	}
-	
-	@JsonBackReference
-	public long getMovieId() {
-		return tempMovieId;
-	}
-	
-	public void setTempMovieId(long tempMovieId) {
-		this.tempMovieId = tempMovieId;
 	}
 }

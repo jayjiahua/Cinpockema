@@ -2,7 +2,7 @@ package com.c09.cinpockema.product.controller;
 
 import javax.validation.Valid;
 import java.util.List;
-
+import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,12 +53,18 @@ public class ProductController {
 		return productService.getScreeningById(screeningId);
 	}
 	
-	@ApiOperation(value="创建一个场次，场次的hallId、movieId封装在json内，key值为tempHallId、tempMovieId")
+	@ApiOperation(value="创建一个场次，场次的hallId、movieId封装在json内，key值为hallId、movieId")
 	@RequestMapping(value = {"/{cinemaId}/screenings"}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
-    public Screening createScreening(@Valid @RequestBody Screening screening) {
-		return productService.createScreening(screening);
+    public Screening createScreening(@Valid @RequestBody String jsonString) {
+		JSONObject json = new JSONObject(jsonString);
+		Screening screening = new Screening();
+		screening.setRunningTime(json.getInt("runningTime"));
+		screening.setStartTime(json.getString("startTime"));
+		long hallId = json.getLong("hallId");
+		long movieId = json.getLong("movieId");
+		return productService.createScreening(screening, hallId, movieId);
 	}
 	
 	@ApiOperation(value="根据场次ID删除一个场次")
@@ -82,13 +88,16 @@ public class ProductController {
 		return new ResponseEntity<Ticket>(ticket, ticket != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
 	}
 	
-	@ApiOperation(value="创建一张电影票，电影票的seatId封装在json内，key值为tempSeatId")
+	@ApiOperation(value="创建一张电影票，电影票的seatId封装在json内，key值为seatId")
 	@RequestMapping(value = {"/{cinemaId}/screenings/{screeningId}/tickets"}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
-    public Ticket createTicket(@Valid @RequestBody Ticket ticket, @PathVariable("screeningId") long screeningId) {
-		Screening screening = productService.getScreeningById(screeningId);
-		return productService.createTicket(ticket, screening);
+    public Ticket createTicket(@Valid @RequestBody String jsonString, @PathVariable("screeningId") long screeningId) {
+		JSONObject json = new JSONObject(jsonString);
+		Ticket ticket = new Ticket();
+		ticket.setPrice(json.getDouble("price"));
+		long seatId = json.getLong("seatId");
+		return productService.createTicket(ticket, screeningId, seatId);
 	}
 	
 	@ApiOperation(value="根据电影票ID删除一张电影票")
