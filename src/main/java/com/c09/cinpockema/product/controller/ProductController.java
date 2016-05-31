@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -29,7 +30,7 @@ import com.c09.cinpockema.product.entities.Screening;
 import com.c09.cinpockema.product.entities.Ticket;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/cinemas")
 public class ProductController {
 
 	@Autowired
@@ -38,52 +39,50 @@ public class ProductController {
 	@Autowired
 	private CinemaService cinemaService;
 	
-	@Autowired
-	private MovieService movieService;
-	
-	// curl localhost:8080/api/product/screenings/1
-	@RequestMapping(value={"/screenings/{cinemaId}"}, method=RequestMethod.GET)
+	// curl localhost:8080/api/cinemas/1/screenings/
+	@RequestMapping(value={"/{cinemaId}/screenings"}, method=RequestMethod.GET)
 	public List<Screening> listScreeningsByCinameId(@PathVariable("cinemaId") long cinemaId) {
 		return productService.listScreeningsByCinameId(cinemaId);
 	}
 	
-	// curl localhost:8080/api/product/screenings/1/1 -u admin:admin -H "Content-Type: application/json" -d "{\"startTime\":\"11:30\", \"runningTime\":120}"
-	@RequestMapping(value = {"/screenings/{hallId}/{movieId}"}, method = RequestMethod.POST)
+	// curl localhost:8080/api/cinemas/1/screenings -u admin:admin -H "Content-Type: application/json" -d "{\"tempHallId\":1, \"tempMovieId\":66666, \"startTime\":\"11:30\", \"runningTime\":120}"
+	@RequestMapping(value = {"/{cinemaId}/screenings"}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
-    public Screening createScreening(@Valid @RequestBody Screening screening, @PathVariable("hallId") long hallId, @PathVariable("movieId") long movieId) {
-		Hall hall = cinemaService.getHallById(hallId);
-		Movie movie = movieService.getMovieById(movieId);
-		return productService.createScreening(screening, hall, movie);
+    public Screening createScreening(@Valid @RequestBody Screening screening) {
+		return productService.createScreening(screening);
 	}
 	
-	// curl -X DELETE localhost:8080/api/product/screenings/1 -u admin:admin
-	@RequestMapping(value={"/screenings/{screeningId}"}, method=RequestMethod.DELETE)
+	// curl -X DELETE localhost:8080/api/cinemas/1/screenings/1 -u admin:admin
+	@RequestMapping(value={"/{cinemaId}/screenings/{screeningId}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('admin')")
     public void deleteScreeningById(@PathVariable("screeningId") long screeningId) {
 		productService.deleteScreeningById(screeningId);
 	}
 	
-	// curl localhost:8080/api/product/tickets/1
-	@RequestMapping(value={"/tickets/{id}"}, method=RequestMethod.GET)
-	public ResponseEntity<Ticket> getTicketById(@PathVariable("id") long ticketId) {
+	// curl localhost:8080/api/cinemas/1/screenings/1/tickets/1
+	@RequestMapping(value={"/{cinemaId}/screenings/{screeningId}/tickets/{ticketId}"}, method=RequestMethod.GET)
+	public ResponseEntity<Ticket> getTicketById(@PathVariable("ticketId") long ticketId) {
 		Ticket ticket = productService.getTicketById(ticketId);
 		return new ResponseEntity<Ticket>(ticket, ticket != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
 	}
 	
-	// curl localhost:8080/api/product/tickets/1/1 -u admin:admin -H "Content-Type: application/json" -d "{\"price\":80}"
-	@RequestMapping(value = {"/tickets/{screeningId}/{seatId}"}, method = RequestMethod.POST)
+	// curl localhost:8080/api/product/tickets/1/1 -u admin:admin -H "Content-Type: application/json" -d "{"\"screeningId\":1, \"seatId\":1, \"ticket\":{\"price\":80}}"
+	@RequestMapping(value = {"/{cinemaId}/screenings/{screeningId}/tickets"}, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
-    public Ticket createTicket(@Valid @RequestBody Ticket ticket, @PathVariable("screeningId") long screeningId, @PathVariable("seatId") long seatId) {
+    public Ticket createTicket(
+    		@Valid @RequestParam(value = "ticket") Ticket ticket, 
+    		@RequestParam(value = "screeningId") long screeningId, 
+    		@RequestParam(value = "seatId") long seatId) {
 		Screening screening = productService.getScreeningById(screeningId);
 		Seat seat = cinemaService.getSeatById(seatId);
 		return productService.createTicket(ticket, screening, seat);
 	}
 	
 	// curl -X DELETE localhost:8080/api/product/tickets/1 -u admin:admin
-	@RequestMapping(value={"/tickets/{id}"}, method=RequestMethod.DELETE)
+	@RequestMapping(value={"/{cinemaId}/screenings/{screeningId}/tickets/{id}"}, method=RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('admin')")
     public void deleteTicketById(@PathVariable("id") long id) {
