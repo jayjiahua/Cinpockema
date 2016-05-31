@@ -50,9 +50,10 @@ public class ProductService {
 		screeningRepository.delete(id);
 	}
 	
-	public Ticket createTicket(Ticket ticket, Screening screening, Seat seat) {
+	public Ticket createTicket(Ticket ticket, Screening screening) {
 		ticket.setScreening(screening);
-		ticket.setSeat(seat);
+		ticket.setSeat(cinemaService.getSeatById(ticket.getSeatId()));
+		System.out.println(ticket.getSeatId());
 		return ticketRepository.save(ticket);
 	}
 	
@@ -70,5 +71,9 @@ public class ProductService {
 	
 	public List<Screening> listScreeningsByCinameId(long id) {
 		return screeningRepository.findByCinemaId(id);
+	}
+	
+	public List<Ticket> listTicketsByScreeningId(long id) {
+		return ticketRepository.findByScreeningId(id);
 	}
 }

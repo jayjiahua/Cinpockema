@@ -39,6 +39,9 @@ public class Ticket {
 	@Column(nullable=false)
 	private double price;
 	
+	@NotNull
+	private long tempSeatId;
+	
 	public Ticket() {}
 	
 	public long getId() {
@@ -73,5 +76,14 @@ public class Ticket {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	
+	@JsonBackReference
+	public long getSeatId() {
+		return tempSeatId;
+	}
+	
+	public void setTempSeatId(long tempSeatId) {
+		this.tempSeatId = tempSeatId;
 	}
 }
