@@ -1,6 +1,9 @@
 package com.c09.cinpockema.helper;
 
 import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 
@@ -229,8 +232,16 @@ public class DataInitHelper {
     		screening.setCinema(cinema);
     		screening.setHall(hall);
     		screening.setMovie(movie);
-    		screening.setStartTime("9:30");
     		screening.setRunningTime(120);
+    		
+    		try {
+    			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+				Date startTimeDate = sdf.parse("2016-06-01 09:30");
+				screening.setStartTime(startTimeDate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+    		
     		screeningRepository.save(screening);
     		
     		List<Seat> seatList = hall.getSeats();
