@@ -20,7 +20,9 @@ import javax.validation.constraints.NotNull;
 
 import com.c09.cinpockema.cinema.entities.Seat;
 import com.c09.cinpockema.user.entities.User.ROLE;
+import com.c09.cinpockema.order.entities.Order;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Ticket {
