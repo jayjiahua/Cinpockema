@@ -25,6 +25,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.c09.cinpockema.movie.entities.MovieComment;
 import com.c09.cinpockema.cinema.entities.CinemaComment;
+import com.c09.cinpockema.order.entities.Order;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
@@ -85,6 +86,9 @@ public class User implements UserDetails {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy ="user", fetch=FetchType.LAZY)
 	List<CinemaComment> cinemaComments = new ArrayList<CinemaComment>();
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy ="user", fetch=FetchType.LAZY)
+	List<Order> orders = new ArrayList<Order>();
 
 	public String getNickname() {
 		return nickname;
@@ -178,6 +182,10 @@ public class User implements UserDetails {
 	public void addCinemaComment(CinemaComment cinemaComment) {
 		cinemaComment.setUser(this);
 		cinemaComments.add(cinemaComment);
+	}
+	
+	public void addOrder(Order order) {
+		orders.add(order);
 	}
 
 	@Override
