@@ -163,7 +163,9 @@ public class DataInitHelper {
 	        	for (int j = 0; j < 3; j++) {
 	        		Seat seat = new Seat();
 	        		seat.setCol(j);
-	        		seat.setRow(j);;
+	        		seat.setRow(j);
+	        		seat.setCoordinateX(j);
+	        		seat.setCoordinateY(j);
 	        		
 	        		hall.addSeat(seat);;
 	        	}
@@ -209,7 +211,9 @@ public class DataInitHelper {
         	for (int j = 0; j < 3; j++) {
         		Seat seat = new Seat();
         		seat.setCol(j);
-        		seat.setRow(j);;
+        		seat.setRow(j);
+        		seat.setCoordinateX(j);
+        		seat.setCoordinateY(j);
         		
         		hall.addSeat(seat);;
         	}
@@ -288,7 +292,9 @@ public class DataInitHelper {
         	for (int j = 0; j < 3; j++) {
         		Seat seat = new Seat();
         		seat.setCol(j);
-        		seat.setRow(j);;
+        		seat.setRow(j);
+        		seat.setCoordinateX(j);
+        		seat.setCoordinateY(j);
         		
         		hall.addSeat(seat);;
         	}
