@@ -2,6 +2,7 @@ package com.c09.cinpockema.product.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,11 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import com.c09.cinpockema.movie.entities.Movie;
 import com.c09.cinpockema.cinema.entities.Cinema;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.c09.cinpockema.cinema.entities.Hall;
 
@@ -32,7 +34,8 @@ public class Screening {
 	// 电影开始时间，类型为字符串
 	@NotNull
 	@Column(nullable=false)
-	private String startTime;
+	@Temporal(TemporalType.TIMESTAMP)
+    private Date startTime;
 	
 	// 电影片长分钟数，类型为整数
 	@NotNull
@@ -62,11 +65,11 @@ public class Screening {
 		this.id = id;
 	}
 	
-	public String getStartTime() {
+	public Date getStartTime() {
 		return startTime;
 	}
 	
-	public void setStartTime(String startTime) {
+	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
 	

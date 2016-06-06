@@ -11,7 +11,9 @@ import com.c09.cinpockema.product.entities.repositories.ScreeningRepository;
 import com.c09.cinpockema.product.entities.repositories.TicketRepository;
 import com.c09.cinpockema.cinema.entities.Hall;
 import com.c09.cinpockema.movie.entities.Movie;
+import com.c09.cinpockema.movie.service.MovieService;
 import com.c09.cinpockema.cinema.entities.Seat;
+import com.c09.cinpockema.cinema.service.CinemaService;
 
 @Service
 public class ProductService {
@@ -21,8 +23,15 @@ public class ProductService {
 	@Autowired
 	private TicketRepository ticketRepository;
 	
-	public Screening createScreening(Screening screening, Hall hall, Movie movie) {
-		if (!movie.isOnShow())return null;
+	@Autowired
+	private CinemaService cinemaService;
+	
+	@Autowired
+	private MovieService movieService;
+	
+	public Screening createScreening(Screening screening, long hallId, long movieId) {
+		Hall hall = cinemaService.getHallById(hallId);
+		Movie movie = movieService.getMovieById(movieId);
 		screening.setHall(hall);
 		screening.setMovie(movie);
 		screening.setCinema(hall.getCinema());
@@ -41,7 +50,9 @@ public class ProductService {
 		screeningRepository.delete(id);
 	}
 	
-	public Ticket createTicket(Ticket ticket, Screening screening, Seat seat) {
+	public Ticket createTicket(Ticket ticket, long screeningId, long seatId) {
+		Screening screening = getScreeningById(screeningId);
+		Seat seat = cinemaService.getSeatById(seatId);
 		ticket.setScreening(screening);
 		ticket.setSeat(seat);
 		return ticketRepository.save(ticket);
@@ -61,5 +72,9 @@ public class ProductService {
 	
 	public List<Screening> listScreeningsByCinameId(long id) {
 		return screeningRepository.findByCinemaId(id);
+	}
+	
+	public List<Ticket> listTicketsByScreeningId(long id) {
+		return ticketRepository.findByScreeningId(id);
 	}
 }
