@@ -41,6 +41,18 @@ public class Seat {
 	@Column(nullable=false)
 	private Integer col;
 	
+	@NotNull
+	@Min(value=0)
+	@Max(value=1000)
+	@Column(nullable=false)
+	private Integer coordinateX;
+	
+	@NotNull
+	@Min(value=0)
+	@Max(value=1000)
+	@Column(nullable=false)
+	private Integer coordinateY;
+	
 	@ManyToOne(cascade = { CascadeType.MERGE,CascadeType.REFRESH }, optional = false)
     @JoinColumn(name="hall_id")
 	private Hall hall;
@@ -67,6 +79,22 @@ public class Seat {
 	
 	public void setCol(Integer col) {
 		this.col = col;
+	}
+	
+	public Integer getCoordinateX() {
+		return coordinateX;
+	}
+	
+	public void setCoordinateX(Integer coordinateX) {
+		this.coordinateX = coordinateX;
+	}
+	
+	public Integer getCoordinateY() {
+		return coordinateY;
+	}
+	
+	public void setCoordinateY(Integer coordinateY) {
+		this.coordinateY = coordinateY;
 	}
 	
 	@JsonBackReference
