@@ -17,6 +17,11 @@ server:
 
 # Spring settings
 spring: 
+  application:
+    name: "Cinpockema"
+#  boot:
+#    admin:
+#      url: http://localhost:8080
   # Use mysql, name of database is "cinpockema"
   datasource:
     driverClassName: com.mysql.jdbc.Driver
@@ -58,7 +63,7 @@ security:
 #    password: foo
 
 endpoints: 
-  sensitive: true
+  sensitive: false
 
 management:
   security:
