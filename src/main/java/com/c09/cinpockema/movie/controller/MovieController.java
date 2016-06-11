@@ -2,6 +2,7 @@ package com.c09.cinpockema.movie.controller;
 
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -113,10 +114,11 @@ public class MovieController {
     
 	@ApiOperation(value="获取某部电影详细信息")
     @RequestMapping(value="/{id}/details", method = RequestMethod.GET)
-    public ResponseEntity<String> getMovieDetailsByOriginalId(@PathVariable("id") String id) {
-    	HttpHeaders headers = new HttpHeaders();
-        MediaType mediaType = new MediaType("application", "json", Charset.forName("utf-8"));
-        headers.setContentType(mediaType);
-        return new ResponseEntity<String>(movieService.getMovieDetails(id), headers, HttpStatus.OK);
-    }
+    public Map<String, Object> getMovieDetailsByOriginalId(@PathVariable("id") String id) {
+//    	HttpHeaders headers = new HttpHeaders();
+//        MediaType mediaType = new MediaType("application", "json", Charset.forName("utf-8"));
+//        headers.setContentType(mediaType);
+//        return new ResponseEntity<String>(movieService.getMovieDetails(id), headers, HttpStatus.OK);
+		return movieService.getMovieDetails(id);
+	}
 }

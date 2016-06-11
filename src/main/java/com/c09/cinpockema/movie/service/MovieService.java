@@ -1,8 +1,11 @@
 package com.c09.cinpockema.movie.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.neo4j.cypher.internal.compiler.v2_2.commands.indexQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -108,10 +111,37 @@ public class MovieService {
 	 * @return	豆瓣电影API返回的json字符串
 	 */
 	@Cacheable
-	public String getMovieDetails(String originalId) {
+	public Map<String, Object> getMovieDetails(String originalId) {
     	RestTemplate restTemplate = new RestTemplate();
     	ResponseEntity<String> responseEntity = restTemplate.getForEntity(DOUBAN_DETAIL_API + originalId, String.class);
-    	return responseEntity.getBody();
+    	String detailString = responseEntity.getBody();
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("summary", JsonPath.read(detailString, "$.summary"));
+    	map.put("wishCount", JsonPath.read(detailString, "$.wish_count"));
+    	
+    	List<Map<String, String>> casts = new ArrayList<Map<String, String>>();
+    	List<String> castNameList = JsonPath.read(detailString, "$.casts[*].name");
+    	List<String> castAvatarUrlList = JsonPath.read(detailString, "$.casts[*].avatars.small");    	
+    	for (int i = 0 ; i < castNameList.size() ; i++) {
+    		Map<String, String> m = new HashMap<String, String>();
+    		m.put("name", castNameList.get(i));
+    		m.put("avatarUrl", castAvatarUrlList.get(i));
+    		casts.add(m);
+    	}
+    	map.put("casts", casts);
+    	
+    	List<Map<String, String>> directors = new ArrayList<Map<String, String>>();
+    	List<String> directorNameList = JsonPath.read(detailString, "$.casts[*].name");
+    	List<String> directorAvatarUrlList = JsonPath.read(detailString, "$.casts[*].avatars.small");    	
+    	for (int i = 0 ; i < directorNameList.size() ; i++) {
+    		Map<String, String> m = new HashMap<String, String>();
+    		m.put("name", directorNameList.get(i));
+    		m.put("avatarUrl", directorAvatarUrlList.get(i));
+    		directors.add(m);
+    	}
+    	map.put("directors", directors);
+
+    	return map;
 	}
 
 	/**
