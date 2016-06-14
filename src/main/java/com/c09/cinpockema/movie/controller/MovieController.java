@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.c09.cinpockema.cinema.entities.Cinema;
 import com.c09.cinpockema.movie.entities.Movie;
 import com.c09.cinpockema.movie.entities.MovieComment;
 import com.c09.cinpockema.movie.service.MovieService;
@@ -64,6 +65,12 @@ public class MovieController {
     public ResponseEntity<Movie> getMovieById(@PathVariable("id") long movieId) {
     	Movie movie = movieService.getMovieById(movieId);
     	return new ResponseEntity<Movie>(movie, movie != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+	
+	@ApiOperation(value="获取上映该电影的影院")
+    @RequestMapping(value="/{id}/cinemas", method = RequestMethod.GET)
+    public List<Cinema> listCinemasByMovieId(@PathVariable("id") long movieId) {
+    	return movieService.listCinemasByMovieId(movieId);
     }
 
 	@ApiIgnore

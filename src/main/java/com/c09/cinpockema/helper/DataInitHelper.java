@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -77,7 +78,16 @@ public class DataInitHelper {
     @Autowired
 	OrderRepository orderRepository;
     
+    
     @PostConstruct
+    public void dateInit() {
+    	// 必须按顺序
+    	userDataInit();
+    	movieDataInit();
+    	cinemaDataInit();
+    	productDataInit();
+    }
+    
     public void userDataInit(){
         User admin = new User();
         admin.setPassword("admin");
@@ -92,10 +102,9 @@ public class DataInitHelper {
         userRepository.save(user);
     }
 
-    @PostConstruct
+
     public void movieDataInit(){
-//    	movieService.listMovies();
-    	
+    	movieService.listMovies();    	
     }
 
 //    @PostConstruct
@@ -129,25 +138,27 @@ public class DataInitHelper {
 //        }
 //    }
     
-    @PostConstruct
+
     public void cinemaDataInit() {
     	User user = new User();
         user.setUsername("user-for-cinema-comment");
         user.setPassword("user");
         userRepository.save(user);
         
-        Movie movie1 = new Movie();
-        movie1.setTitle("movie-1-for-cinema");
-        movie1.setRating(8.8);
-        movie1.setId(66666);
-        Movie movie2 = new Movie();
-        movie2.setTitle("movie-2-for-cinema");
-        movie2.setRating(8.8);
-        movie2.setId(77777);
-        movieRepository.save(movie1);
-        movieRepository.save(movie2);
+//        Movie movie1 = new Movie();
+//        movie1.setTitle("movie-1-for-cinema");
+//        movie1.setRating(8.8);
+//        movie1.setId(66666);
+//        Movie movie2 = new Movie();
+//        movie2.setTitle("movie-2-for-cinema");
+//        movie2.setRating(8.8);
+//        movie2.setId(77777);
+//        movieRepository.save(movie1);
+//        movieRepository.save(movie2);
         
-        for (int k = 0 ; k < 3 ; k++) {
+        List<Movie> movies = movieRepository.findAll();
+        
+        for (int k = 0 ; k < 6 ; k++) {
 	        Cinema cinema = new Cinema();
 	        cinema.setName("cinema-" + k);
 	        cinema.setIntroduction("bull shit");
@@ -174,8 +185,11 @@ public class DataInitHelper {
 	        }
 	        cinemaRepository.save(cinema);
 	        
-	        cinema.addMovie(movie1);
-	        cinema.addMovie(movie2);
+	        for (int i = 0 ; i < movies.size() ; i++) {
+	        	if (Math.random() > 0.5) {
+	        		cinema.addMovie(movies.get(i));
+	        	}
+	        }
 
 	        for (int i = 0 ; i < 3 ; i++) {
 		        CinemaComment cinemaComment = new CinemaComment();
@@ -191,7 +205,6 @@ public class DataInitHelper {
         }
     }
     
-    @PostConstruct
     public void productDataInit() {
     	/*
     	 * 新建影院、影厅及座位
@@ -231,7 +244,12 @@ public class DataInitHelper {
         movie.setId(110);
         movieRepository.save(movie);
         cinema.addMovie(movie);
-        
+//
+//    	Cinema cinema = cinemaRepository.findOne(1L);
+//    	Movie movie = movieRepository.findAll().get(0);
+//    	Cinema cinema = movieService.listCinemasByMovieId(movie.getId()).get(0);
+    	
+    	
         /*
          * 新建场次和电影票
          */
@@ -264,97 +282,97 @@ public class DataInitHelper {
         }
     }
     
-    @PostConstruct
-    public void orderDataInit(){
-    	/*
-    	 * 新建用户
-    	 */
-    	User user = new User();
-        user.setUsername("user-for-Order");
-        user.setPassword("user");
-        userRepository.save(user);
-    	
-    	/*
-    	 * 新建影院、影厅及座位
-    	 */
-    	Cinema cinema = new Cinema();
-        cinema.setName("cinema-for-Order");
-        cinema.setIntroduction("holy shit");
-        cinema.setLongitude(88.88);
-        cinema.setLatitude(88.88);
-        cinema.setCityId(231);
-        cinema.setAddress("shantou");
-        
-        for (int i = 0; i < 3; i++) {
-        	Hall hall = new Hall();
-        	hall.setName("hall-for-Order-" + i);
-        	
-        	for (int j = 0; j < 3; j++) {
-        		Seat seat = new Seat();
-        		seat.setCol(j);
-        		seat.setRow(j);
-        		seat.setCoordinateX(j);
-        		seat.setCoordinateY(j);
-        		
-        		hall.addSeat(seat);;
-        	}
-        	
-        	cinema.addHall(hall);
-        }
-        cinemaRepository.save(cinema);
-        
-        /*
-         * 新建电影
-         */
-        Movie movie = new Movie();
-        movie.setTitle("movie-1-for-Order");
-        movie.setRating(8.8);
-        movie.setId(120);
-        movieRepository.save(movie);
-        cinema.addMovie(movie);
-        cinemaRepository.save(cinema);
-        
-        /*
-         * 新建场次、电影票和订单
-         */
-        List<Hall> hallList = cinema.getHallls();
-        for (Hall hall : hallList) {
-        	Screening screening = new Screening();
-    		screening.setCinema(cinema);
-    		screening.setHall(hall);
-    		screening.setMovie(movie);
-    		screening.setRunningTime(150);
-    		
-    		Order order = new Order();
-        	order.setUser(user);
-    		
-    		try {
-    			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-				Date startTimeDate = sdf.parse("2016-06-01 15:30");
-				Date createTimeDate = sdf.parse("2016-06-01 08:30");
-				screening.setStartTime(startTimeDate);
-				order.setCreateTime(createTimeDate);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-    		
-    		screeningRepository.save(screening);
-    		
-    		List<Seat> seatList = hall.getSeats();
-    		for (Seat seat : seatList) {
-    			Ticket ticket = new Ticket();
-        		ticket.setPrice(50);
-        		ticket.setScreening(screening);
-        		ticket.setSeat(seat);
-        		ticketRepository.save(ticket);
-    		}
-    		
-    		List<Ticket> ticketList = screening.getTickets();
-    		order.setTickets(ticketList);
-    		
-    		orderRepository.save(order);
-        }
-    }
+//    @PostConstruct
+//    public void orderDataInit(){
+//    	/*
+//    	 * 新建用户
+//    	 */
+//    	User user = new User();
+//        user.setUsername("user-for-Order");
+//        user.setPassword("user");
+//        userRepository.save(user);
+//    	
+//    	/*
+//    	 * 新建影院、影厅及座位
+//    	 */
+//    	Cinema cinema = new Cinema();
+//        cinema.setName("cinema-for-Order");
+//        cinema.setIntroduction("holy shit");
+//        cinema.setLongitude(88.88);
+//        cinema.setLatitude(88.88);
+//        cinema.setCityId(231);
+//        cinema.setAddress("shantou");
+//        
+//        for (int i = 0; i < 3; i++) {
+//        	Hall hall = new Hall();
+//        	hall.setName("hall-for-Order-" + i);
+//        	
+//        	for (int j = 0; j < 3; j++) {
+//        		Seat seat = new Seat();
+//        		seat.setCol(j);
+//        		seat.setRow(j);
+//        		seat.setCoordinateX(j);
+//        		seat.setCoordinateY(j);
+//        		
+//        		hall.addSeat(seat);;
+//        	}
+//        	
+//        	cinema.addHall(hall);
+//        }
+//        cinemaRepository.save(cinema);
+//        
+//        /*
+//         * 新建电影
+//         */
+//        Movie movie = new Movie();
+//        movie.setTitle("movie-1-for-Order");
+//        movie.setRating(8.8);
+//        movie.setId(120);
+//        movieRepository.save(movie);
+//        cinema.addMovie(movie);
+//        cinemaRepository.save(cinema);
+//        
+//        /*
+//         * 新建场次、电影票和订单
+//         */
+//        List<Hall> hallList = cinema.getHallls();
+//        for (Hall hall : hallList) {
+//        	Screening screening = new Screening();
+//    		screening.setCinema(cinema);
+//    		screening.setHall(hall);
+//    		screening.setMovie(movie);
+//    		screening.setRunningTime(150);
+//    		
+//    		Order order = new Order();
+//        	order.setUser(user);
+//    		
+//    		try {
+//    			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+//				Date startTimeDate = sdf.parse("2016-06-01 15:30");
+//				Date createTimeDate = sdf.parse("2016-06-01 08:30");
+//				screening.setStartTime(startTimeDate);
+//				order.setCreateTime(createTimeDate);
+//			} catch (ParseException e) {
+//				e.printStackTrace();
+//			}
+//    		
+//    		screeningRepository.save(screening);
+//    		
+//    		List<Seat> seatList = hall.getSeats();
+//    		for (Seat seat : seatList) {
+//    			Ticket ticket = new Ticket();
+//        		ticket.setPrice(50);
+//        		ticket.setScreening(screening);
+//        		ticket.setSeat(seat);
+//        		ticketRepository.save(ticket);
+//    		}
+//    		
+//    		List<Ticket> ticketList = screening.getTickets();
+//    		order.setTickets(ticketList);
+//    		
+//    		orderRepository.save(order);
+//        }
+//    }
 
     @PostConstruct
     public void foobarDataInit(){

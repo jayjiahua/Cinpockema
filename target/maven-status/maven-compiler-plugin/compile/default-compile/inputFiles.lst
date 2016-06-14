@@ -6,11 +6,16 @@ E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\movie\entities\M
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\movie\entities\repositories\MovieCommentRepository.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\user\controller\UserController.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\movie\controller\MovieController.java
+E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\product\entities\repositories\ScreeningRepository.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\movie\service\MovieService.java
+E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\product\service\ProductService.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\cinema\entities\repositories\SeatRepository.java
+E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\config\Swagger2Config.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\cinema\entities\Cinema.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\cinema\entities\Seat.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\user\entities\repositories\UserRepository.java
+E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\product\entities\repositories\TicketRepository.java
+E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\product\entities\Screening.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\user\service\SessionService.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\cinema\entities\repositories\CinemaRepository.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\config\SecurityConfig.java
@@ -19,7 +24,9 @@ E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\config\RedisConf
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\user\service\UserService.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\movie\entities\Movie.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\cinema\controller\CinemaController.java
+E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\product\entities\Ticket.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\helper\DataInitHelper.java
+E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\product\controller\ProductController.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\cinema\service\CinemaService.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\cinema\entities\Hall.java
 E:\Documents\GitHub\Cinpockema\src\main\java\com\c09\cinpockema\cinema\entities\repositories\HallRepository.java
