@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import com.c09.cinpockema.cinema.entities.Cinema;
 import com.c09.cinpockema.movie.entities.Movie;
 import com.c09.cinpockema.movie.entities.MovieComment;
 import com.c09.cinpockema.movie.entities.repositories.MovieCommentRepository;
@@ -221,4 +222,7 @@ public class MovieService {
 	}
 
 
+	public List<Cinema> listCinemasByMovieId(long id) {
+		return movieRepository.findOne(id).getCinemas();
+	}
 }
