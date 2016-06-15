@@ -158,27 +158,35 @@ public class DataInitHelper {
         
         List<Movie> movies = movieRepository.findAll();
         
+        String[] cinemaName = {"金逸珠江国际影城（大学城店）", "广东科学中心IMAX巨幕影院", "星河电影院（番禺区店）", "中影环球影城", "大地影院", "喜洋时代影城"};
+        String[] hallName = {"3D影厅", "巨幕影厅", "2D影厅"};
+        
         for (int k = 0 ; k < 6 ; k++) {
 	        Cinema cinema = new Cinema();
-	        cinema.setName("cinema-" + k);
+	        cinema.setName(cinemaName[k]);
 	        cinema.setIntroduction("bull shit");
 	        cinema.setLongitude(23.333);
 	        cinema.setLatitude(23.333);
 	        cinema.setCityId(453);
-	        cinema.setAddress("SYSU 231");
+	        cinema.setAddress("番禺区小谷围街");
 	        
 	        for (int i = 0; i < 3; i++) {
 	        	Hall hall = new Hall();
-	        	hall.setName("cinema-" + k + "-hall-" + i);
+	        	hall.setName(hallName[i]);
 	        	
-	        	for (int j = 0; j < 3; j++) {
-	        		Seat seat = new Seat();
-	        		seat.setCol(j);
-	        		seat.setRow(j);
-	        		seat.setCoordinateX(j);
-	        		seat.setCoordinateY(j);
-	        		
-	        		hall.addSeat(seat);;
+	        	for (int j = 0; j < 10; j++) {
+	        		for (int c = 0 ; c < 10 ; c++) {
+	        			if ((j < 4 && c < 2) || (j < 4 && c > 7)) {
+	        				continue;
+	        			}
+		        		Seat seat = new Seat();
+		        		seat.setCol(c);
+		        		seat.setRow(j);
+		        		seat.setCoordinateX(j);
+		        		seat.setCoordinateY(c);
+		        		
+		        		hall.addSeat(seat);
+	        		}
 	        	}
 	        	
 	        	cinema.addHall(hall);
