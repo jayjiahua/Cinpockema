@@ -129,7 +129,7 @@ public class MovieService {
     		m.put("avatarUrl", castAvatarUrlList.get(i));
     		casts.add(m);
     	}
-    	map.put("casts", casts);
+    	// map.put("casts", casts);
     	
     	List<Map<String, String>> directors = new ArrayList<Map<String, String>>();
     	List<String> directorNameList = JsonPath.read(detailString, "$.casts[*].name");
@@ -140,7 +140,7 @@ public class MovieService {
     		m.put("avatarUrl", directorAvatarUrlList.get(i));
     		directors.add(m);
     	}
-    	map.put("directors", directors);
+    	// map.put("directors", directors);
 
     	return map;
 	}

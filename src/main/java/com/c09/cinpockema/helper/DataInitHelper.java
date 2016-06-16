@@ -7,10 +7,12 @@ import java.util.Date;
 
 import javax.annotation.PostConstruct;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -213,49 +215,50 @@ public class DataInitHelper {
         }
     }
     
+    
     public void productDataInit() {
     	/*
     	 * 新建影院、影厅及座位
     	 */
-    	Cinema cinema = new Cinema();
-        cinema.setName("cinema-for-Screening-and-Ticket");
-        cinema.setIntroduction("holy shit");
-        cinema.setLongitude(88.88);
-        cinema.setLatitude(88.88);
-        cinema.setCityId(231);
-        cinema.setAddress("shantou");
-        
-        for (int i = 0; i < 3; i++) {
-        	Hall hall = new Hall();
-        	hall.setName("hall-for-Screening-and-Ticket-" + i);
-        	
-        	for (int j = 0; j < 3; j++) {
-        		Seat seat = new Seat();
-        		seat.setCol(j);
-        		seat.setRow(j);
-        		seat.setCoordinateX(j);
-        		seat.setCoordinateY(j);
-        		
-        		hall.addSeat(seat);;
-        	}
-        	
-        	cinema.addHall(hall);
-        }
-        cinemaRepository.save(cinema);
-        
-        /*
-         * 新建电影
-         */
-        Movie movie = new Movie();
-        movie.setTitle("movie-1-for-Screening");
-        movie.setRating(8.8);
-        movie.setId(110);
-        movieRepository.save(movie);
-        cinema.addMovie(movie);
+//    	Cinema cinema = new Cinema();
+//        cinema.setName("cinema-for-Screening-and-Ticket");
+//        cinema.setIntroduction("holy shit");
+//        cinema.setLongitude(88.88);
+//        cinema.setLatitude(88.88);
+//        cinema.setCityId(231);
+//        cinema.setAddress("shantou");
+//        
+//        for (int i = 0; i < 3; i++) {
+//        	Hall hall = new Hall();
+//        	hall.setName("hall-for-Screening-and-Ticket-" + i);
+//        	
+//        	for (int j = 0; j < 3; j++) {
+//        		Seat seat = new Seat();
+//        		seat.setCol(j);
+//        		seat.setRow(j);
+//        		seat.setCoordinateX(j);
+//        		seat.setCoordinateY(j);
+//        		
+//        		hall.addSeat(seat);;
+//        	}
+//        	
+//        	cinema.addHall(hall);
+//        }
+//        cinemaRepository.save(cinema);
+//        
+//        /*
+//         * 新建电影
+//         */
+//        Movie movie = new Movie();
+//        movie.setTitle("movie-1-for-Screening");
+//        movie.setRating(8.8);
+//        movie.setId(110);
+//        movieRepository.save(movie);
+//        cinema.addMovie(movie);
 //
 //    	Cinema cinema = cinemaRepository.findOne(1L);
-//    	Movie movie = movieRepository.findAll().get(0);
-//    	Cinema cinema = movieService.listCinemasByMovieId(movie.getId()).get(0);
+    	Movie movie = movieRepository.findAll().get(0);
+    	Cinema cinema = movie.getCinemas().get(0);
     	
     	
         /*

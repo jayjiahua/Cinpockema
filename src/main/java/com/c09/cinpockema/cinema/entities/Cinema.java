@@ -74,7 +74,7 @@ public class Cinema {
     	inverseJoinColumns={@JoinColumn(name="movie_id")})
     private List<Movie> movies = new ArrayList<Movie>();
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema", fetch = FetchType.LAZY)    
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema", fetch = FetchType.EAGER)    
 	List<Hall> halls = new ArrayList<Hall>();
 	
 	public long getId() {
@@ -192,7 +192,7 @@ public class Cinema {
 		halls.add(hall);
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema", fetch = FetchType.LAZY)    
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema", fetch = FetchType.EAGER)    
 	List<Screening> screenings = new ArrayList<Screening>();
 	
 	@JsonBackReference

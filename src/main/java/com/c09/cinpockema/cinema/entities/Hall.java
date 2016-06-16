@@ -36,7 +36,7 @@ public class Hall {
 	
 	private String description;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "hall", fetch = FetchType.LAZY)    
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "hall", fetch = FetchType.EAGER)    
 	List<Seat> seats = new ArrayList<Seat>();
 	
 	public long getId() {
