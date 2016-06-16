@@ -106,7 +106,30 @@ public class DataInitHelper {
 
 
     public void movieDataInit(){
-    	movieService.listMovies();    	
+    	Iterable<Movie> movies = movieService.listMovies();   
+      User user = new User();
+      user.setUsername("user-for-movie-comment");
+      user.setPassword("user");
+      user.setRole(User.ROLE.user);
+      user.setNickname("路人");
+      userRepository.save(user);
+
+
+      for (Movie movie: movies) {
+	        for (int i = 1 ; i <= 10 ; i++) {
+		        MovieComment movieComment = new MovieComment();
+		        movieComment.setScore(i);
+		        movieComment.setContent("Good!!!");
+
+		        // Warning: Don't do this or you will ...
+		        // user.addMovieComment(movieComment);
+		        // Is it a f**king bug ?
+		        // You should do as follows:
+		        movieComment.setUser(user);
+		        movieComment.setMovie(movie);
+		        movieCommentRepository.save(movieComment);
+	        }
+      }
     }
 
 //    @PostConstruct
@@ -171,7 +194,7 @@ public class DataInitHelper {
 	        cinema.setLatitude(23.333);
 	        cinema.setCityId(453);
 	        cinema.setAddress("番禺区小谷围街");
-	        
+	        cinema.setPhone("020-12345678");
 	        for (int i = 0; i < 3; i++) {
 	        	Hall hall = new Hall();
 	        	hall.setName(hallName[i]);
@@ -193,7 +216,7 @@ public class DataInitHelper {
 	        	
 	        	cinema.addHall(hall);
 	        }
-	        cinemaRepository.save(cinema);
+	        // cinemaRepository.save(cinema);
 	        
 	        for (int i = 0 ; i < movies.size() ; i++) {
 	        	if (Math.random() > 0.5) {
@@ -211,7 +234,7 @@ public class DataInitHelper {
 		        cinema.addCinemaComment(cinemaComment);
 	        }
 	        cinemaRepository.save(cinema);
-	        
+
         }
     }
     
@@ -257,40 +280,47 @@ public class DataInitHelper {
 //        cinema.addMovie(movie);
 //
 //    	Cinema cinema = cinemaRepository.findOne(1L);
-    	Movie movie = movieRepository.findAll().get(0);
-    	Cinema cinema = movie.getCinemas().get(0);
+    	List<Movie> movies = movieRepository.findAll();
+    	List<Cinema> cinemas = cinemaRepository.findAll();
     	
-    	
-        /*
-         * 新建场次和电影票
-         */
-        List<Hall> hallList = cinema.getHallls();
-        for (Hall hall : hallList) {
-        	Screening screening = new Screening();
-    		screening.setCinema(cinema);
-    		screening.setHall(hall);
-    		screening.setMovie(movie);
-    		screening.setRunningTime(120);
-    		
-    		try {
-    			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-				Date startTimeDate = sdf.parse("2016-06-01 09:30");
-				screening.setStartTime(startTimeDate);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-    		
-    		screeningRepository.save(screening);
-    		
-    		List<Seat> seatList = hall.getSeats();
-    		for (Seat seat : seatList) {
-    			Ticket ticket = new Ticket();
-        		ticket.setPrice(40);
-        		ticket.setScreening(screening);
-        		ticket.setSeat(seat);
-        		ticketRepository.save(ticket);
+    	for (Movie movie: movies) {
+    		for (Cinema cinema: cinemas) {
+
+	    	/*
+	         * 新建场次和电影票
+	         */
+		        List<Hall> hallList = cinema.getHallls();
+		        for (Hall hall : hallList) {
+		        	if (Math.random() > 0.5) {
+		        		continue;
+		        	}
+		        	Screening screening = new Screening();
+		    		screening.setCinema(cinema);
+		    		screening.setHall(hall);
+		    		screening.setMovie(movie);
+		    		screening.setRunningTime(120);
+		    		
+		    		try {
+		    			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+						Date startTimeDate = sdf.parse("2016-06-01 09:30");
+						screening.setStartTime(startTimeDate);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+		    		
+		    		screeningRepository.save(screening);
+		    		
+		    		List<Seat> seatList = hall.getSeats();
+		    		for (Seat seat : seatList) {
+		    			Ticket ticket = new Ticket();
+		        		ticket.setPrice(40);
+		        		ticket.setScreening(screening);
+		        		ticket.setSeat(seat);
+		        		ticketRepository.save(ticket);
+		    		}
+		        }
     		}
-        }
+    	}
     }
     
 //    @PostConstruct

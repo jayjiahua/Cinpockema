@@ -125,7 +125,7 @@ public class Movie {
 		movieComments.add(movieComment);
 	}
 	
-	@ManyToMany(mappedBy="movies", fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy="movies", fetch=FetchType.LAZY)
     private List<Cinema> cinemas = new ArrayList<Cinema>();
 
 	@JsonBackReference
