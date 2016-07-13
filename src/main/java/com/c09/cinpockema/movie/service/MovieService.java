@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import com.c09.cinpockema.cinema.entities.Cinema;
 import com.c09.cinpockema.movie.entities.Movie;
 import com.c09.cinpockema.movie.entities.MovieComment;
 import com.c09.cinpockema.movie.entities.repositories.MovieCommentRepository;
@@ -128,7 +129,7 @@ public class MovieService {
     		m.put("avatarUrl", castAvatarUrlList.get(i));
     		casts.add(m);
     	}
-    	map.put("casts", casts);
+    	// map.put("casts", casts);
     	
     	List<Map<String, String>> directors = new ArrayList<Map<String, String>>();
     	List<String> directorNameList = JsonPath.read(detailString, "$.casts[*].name");
@@ -139,7 +140,7 @@ public class MovieService {
     		m.put("avatarUrl", directorAvatarUrlList.get(i));
     		directors.add(m);
     	}
-    	map.put("directors", directors);
+    	// map.put("directors", directors);
 
     	return map;
 	}
@@ -221,4 +222,7 @@ public class MovieService {
 	}
 
 
+	public List<Cinema> listCinemasByMovieId(long id) {
+		return movieRepository.findOne(id).getCinemas();
+	}
 }

@@ -72,7 +72,7 @@ public class Ticket {
 	}
 	
 	public void setScreening(Screening screening) {
-		screening.addTicket(this);
+		// screening.addTicket(this);
 		this.screening = screening;
 	}
 	
@@ -81,7 +81,7 @@ public class Ticket {
 	}
 	
 	public void setSeat(Seat seat) {
-		seat.addTicket(this);
+		// seat.addTicket(this);
 		this.seat = seat;
 	}
 	
