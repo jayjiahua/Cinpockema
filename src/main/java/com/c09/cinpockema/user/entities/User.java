@@ -15,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -23,10 +24,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.c09.cinpockema.movie.entities.Movie;
 import com.c09.cinpockema.movie.entities.MovieComment;
 import com.c09.cinpockema.cinema.entities.CinemaComment;
 import com.c09.cinpockema.order.entities.Order;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -89,6 +92,21 @@ public class User implements UserDetails {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy ="user", fetch=FetchType.LAZY)
 	List<Order> orders = new ArrayList<Order>();
+
+	@ManyToMany(mappedBy="users", fetch=FetchType.LAZY)
+	List<Movie> movies = new ArrayList<Movie>();
+	
+	
+	@JsonBackReference
+	public List<Movie> getMovies() {
+		return movies;
+	}
+
+	@JsonIgnore
+	public void setMovies(List<Movie> movies) {
+		this.movies = movies;
+	}
+
 
 	public String getNickname() {
 		return nickname;

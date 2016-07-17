@@ -20,6 +20,7 @@ import com.c09.cinpockema.movie.entities.MovieComment;
 import com.c09.cinpockema.movie.entities.repositories.MovieCommentRepository;
 import com.c09.cinpockema.movie.entities.repositories.MovieRepository;
 import com.c09.cinpockema.user.entities.User;
+import com.c09.cinpockema.user.entities.repositories.UserRepository;
 import com.jayway.jsonpath.JsonPath;
 
 @Service
@@ -224,5 +225,26 @@ public class MovieService {
 
 	public List<Cinema> listCinemasByMovieId(long id) {
 		return movieRepository.findOne(id).getCinemas();
+	}
+	
+//	public List<User> listCollectorByMovieId(long id) {
+//		return movieRepository.findOne(id).getUsers();
+//	}
+	
+	public void collectMovie(long movieId, User user) {
+		movieRepository.findOne(movieId).addUser(user);
+		userRepository.save(user);
+	}
+	
+	public void cancelCollectMovie(long movieId, User user) {
+		movieRepository.findOne(movieId).removeUser(user);
+		userRepository.save(user);
+	}
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	public List<Movie> listUserMovieCollections(User user) {
+		return userRepository.findOne(user.getId()).getMovies();
 	}
 }

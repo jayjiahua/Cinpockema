@@ -4,6 +4,7 @@ import java.util.List;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import javax.annotation.PostConstruct;
 
@@ -106,7 +107,30 @@ public class DataInitHelper {
 
 
     public void movieDataInit(){
-    	movieService.listMovies();    	
+    	Iterable<Movie> movies = movieService.listMovies();   
+      User user = new User();
+      user.setUsername("user-for-movie-comment");
+      user.setPassword("user");
+      user.setRole(User.ROLE.user);
+      user.setNickname("路人");
+      userRepository.save(user);
+
+
+      for (Movie movie: movies) {
+	        for (int i = 1 ; i <= 10 ; i++) {
+		        MovieComment movieComment = new MovieComment();
+		        movieComment.setScore(i);
+		        movieComment.setContent("Good!!!");
+
+		        // Warning: Don't do this or you will ...
+		        // user.addMovieComment(movieComment);
+		        // Is it a f**king bug ?
+		        // You should do as follows:
+		        movieComment.setUser(user);
+		        movieComment.setMovie(movie);
+		        movieCommentRepository.save(movieComment);
+	        }
+      }
     }
 
 //    @PostConstruct
@@ -160,18 +184,21 @@ public class DataInitHelper {
         
         List<Movie> movies = movieRepository.findAll();
         
-        String[] cinemaName = {"金逸珠江国际影城（大学城店）", "广东科学中心IMAX巨幕影院", "星河电影院（番禺区店）", "中影环球影城", "大地影院", "喜洋时代影城"};
+        String[] cinemaName = {"金逸珠江国际影城（大学城店）", "广东科学中心IMAX巨幕影院", "星河电影院（番禺区店）", "中影环球影城", "大地影院（潮流汇店）", "喜洋时代影城（东圃四季荟店）"};
         String[] hallName = {"3D影厅", "巨幕影厅", "2D影厅"};
+        String[] addressList = {"番禺区小谷围街贝岗中二横路1号GOGO新天地商业广场B2B001铺", "繁育去大学城科普路168号", "番禺区番禺南村兴业大道之一人人佳购物广场2楼", "天河区中山大道1088号博裕广场3楼", "番禺区石基镇市莲路41号石岗东村段K1潮流汇6楼", "天河区东圃大马路4号"};
+        Random random = new Random();
         
         for (int k = 0 ; k < 6 ; k++) {
 	        Cinema cinema = new Cinema();
 	        cinema.setName(cinemaName[k]);
-	        cinema.setIntroduction("bull shit");
-	        cinema.setLongitude(23.333);
-	        cinema.setLatitude(23.333);
-	        cinema.setCityId(453);
-	        cinema.setAddress("番禺区小谷围街");
-	        
+	        cinema.setIntroduction("2D、3D、4D电影一应俱全。");
+	        cinema.setLongitude(113.3915 + random.nextDouble() / 10.0);
+	        cinema.setLatitude(23.059917 + random.nextDouble() / 10.0);
+	        cinema.setCityId(20);
+	        cinema.setAddress(addressList[k]);
+	        cinema.setPhone("020-" + (int) (random.nextDouble() * 100000000));
+	        cinema.setScore(random.nextDouble() * 2 + 3);
 	        for (int i = 0; i < 3; i++) {
 	        	Hall hall = new Hall();
 	        	hall.setName(hallName[i]);
@@ -193,7 +220,7 @@ public class DataInitHelper {
 	        	
 	        	cinema.addHall(hall);
 	        }
-	        cinemaRepository.save(cinema);
+	        // cinemaRepository.save(cinema);
 	        
 	        for (int i = 0 ; i < movies.size() ; i++) {
 	        	if (Math.random() > 0.5) {
@@ -211,7 +238,7 @@ public class DataInitHelper {
 		        cinema.addCinemaComment(cinemaComment);
 	        }
 	        cinemaRepository.save(cinema);
-	        
+
         }
     }
     
@@ -257,40 +284,47 @@ public class DataInitHelper {
 //        cinema.addMovie(movie);
 //
 //    	Cinema cinema = cinemaRepository.findOne(1L);
-    	Movie movie = movieRepository.findAll().get(0);
-    	Cinema cinema = movie.getCinemas().get(0);
+    	List<Movie> movies = movieRepository.findAll();
+    	List<Cinema> cinemas = cinemaRepository.findAll();
     	
-    	
-        /*
-         * 新建场次和电影票
-         */
-        List<Hall> hallList = cinema.getHallls();
-        for (Hall hall : hallList) {
-        	Screening screening = new Screening();
-    		screening.setCinema(cinema);
-    		screening.setHall(hall);
-    		screening.setMovie(movie);
-    		screening.setRunningTime(120);
-    		
-    		try {
-    			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-				Date startTimeDate = sdf.parse("2016-06-01 09:30");
-				screening.setStartTime(startTimeDate);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-    		
-    		screeningRepository.save(screening);
-    		
-    		List<Seat> seatList = hall.getSeats();
-    		for (Seat seat : seatList) {
-    			Ticket ticket = new Ticket();
-        		ticket.setPrice(40);
-        		ticket.setScreening(screening);
-        		ticket.setSeat(seat);
-        		ticketRepository.save(ticket);
+    	for (Movie movie: movies) {
+    		for (Cinema cinema: cinemas) {
+
+	    	/*
+	         * 新建场次和电影票
+	         */
+		        List<Hall> hallList = cinema.getHallls();
+		        for (Hall hall : hallList) {
+		        	if (Math.random() > 0.5) {
+		        		continue;
+		        	}
+		        	Screening screening = new Screening();
+		    		screening.setCinema(cinema);
+		    		screening.setHall(hall);
+		    		screening.setMovie(movie);
+		    		screening.setRunningTime(120);
+		    		
+		    		try {
+		    			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+						Date startTimeDate = sdf.parse("2016-08-03 09:30");
+						screening.setStartTime(startTimeDate);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+		    		
+		    		screeningRepository.save(screening);
+		    		
+		    		List<Seat> seatList = hall.getSeats();
+		    		for (Seat seat : seatList) {
+		    			Ticket ticket = new Ticket();
+		        		ticket.setPrice(40);
+		        		ticket.setScreening(screening);
+		        		ticket.setSeat(seat);
+		        		ticketRepository.save(ticket);
+		    		}
+		        }
     		}
-        }
+    	}
     }
     
 //    @PostConstruct

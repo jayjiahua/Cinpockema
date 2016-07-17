@@ -128,4 +128,31 @@ public class MovieController {
 //        return new ResponseEntity<String>(movieService.getMovieDetails(id), headers, HttpStatus.OK);
 		return movieService.getMovieDetails(id);
 	}
+	
+	@ApiOperation(value="用户收藏电影")
+    @RequestMapping(value={"/{id}/collection"}, method=RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+	@PreAuthorize("hasAnyAuthority('admin', 'user')")
+    public void collectMovie(@PathVariable("id") long id) {
+		User user = sessionService.getCurrentUser();
+		movieService.collectMovie(id, user);
+	}
+	
+	@ApiOperation(value="用户取消收藏电影")
+    @RequestMapping(value={"/{id}/collection"}, method=RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAnyAuthority('admin', 'user')")
+    public void cancelCollectMovie(@PathVariable("id") long id) {
+		User user = sessionService.getCurrentUser();
+		movieService.cancelCollectMovie(id, user);
+	}
+	
+	@ApiOperation(value="获取用户收藏的所有电影")
+    @RequestMapping(value={"/collections"}, method=RequestMethod.GET)
+	@PreAuthorize("hasAnyAuthority('admin', 'user')")
+    public List<Movie> cancelCollectMovie() {
+		User user = sessionService.getCurrentUser();
+		return movieService.listUserMovieCollections(user);
+	}
+	
 }
