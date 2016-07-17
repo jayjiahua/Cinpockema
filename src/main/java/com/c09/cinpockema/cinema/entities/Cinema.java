@@ -174,6 +174,11 @@ public class Cinema {
 	}
 	
 	public void addMovie(Movie movie) {
+		for (Movie _movie: movies) {
+			if (_movie.getId() == movie.getId()) {
+				return;
+			}
+		}
 		movies.add(movie);
 	}
 	
