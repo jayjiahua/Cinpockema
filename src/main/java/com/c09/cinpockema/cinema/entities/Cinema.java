@@ -33,7 +33,7 @@ public class Cinema {
 	
 	@NotNull
 	@Column(nullable=false)
-	private int cityId;
+	private String cityId;
 
 	@NotNull
 	@Column(nullable=false)
@@ -85,11 +85,11 @@ public class Cinema {
 		this.id = id;
 	}
 	
-	public int getCityId() {
+	public String getCityId() {
 		return cityId;
 	}
 	
-	public void setCityId(int cityId) {
+	public void setCityId(String cityId) {
 		this.cityId = cityId;
 	}
 	

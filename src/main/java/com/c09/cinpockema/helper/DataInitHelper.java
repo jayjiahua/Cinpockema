@@ -195,7 +195,7 @@ public class DataInitHelper {
 	        cinema.setIntroduction("2D、3D、4D电影一应俱全。");
 	        cinema.setLongitude(113.3915 + random.nextDouble() / 10.0);
 	        cinema.setLatitude(23.059917 + random.nextDouble() / 10.0);
-	        cinema.setCityId(20);
+	        cinema.setCityId("020");
 	        cinema.setAddress(addressList[k]);
 	        cinema.setPhone("020-" + (int) (random.nextDouble() * 100000000));
 	        cinema.setScore(random.nextDouble() * 2 + 3);
