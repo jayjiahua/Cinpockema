@@ -54,7 +54,7 @@ public class CinemaController {
 	
 	@ApiOperation(value="根据城市Id获取当地所有影院")
 	@RequestMapping(value = {"/cities/{cityId}"}, method = RequestMethod.GET)
-    public List<Cinema> listCinemasByCityId(@PathVariable("cityId") int cityId) {
+    public List<Cinema> listCinemasByCityId(@PathVariable("cityId") String cityId) {
 		return cinemaService.listCinemasByCityId(cityId);
 	}
 	
