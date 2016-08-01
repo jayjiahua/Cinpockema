@@ -37,7 +37,7 @@ public class CinemaService {
 		return cinemaRepository.save(cinema);
 	}
 	
-	public List<Cinema> listCinemasByCityId(int cityId) {
+	public List<Cinema> listCinemasByCityId(String cityId) {
 		return cinemaRepository.findByCityId(cityId);
 	}
 	
